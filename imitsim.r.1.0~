@@ -1,0 +1,177 @@
+# R Script to implement the Imitation model from WSS
+# - Aim is to use base R functions and avoid APL/C/Java code that
+#   was probably inaccessible to many people
+# - Thought was also that APL is in many ways a precursor to R, so
+#   that the migration should not be hard
+
+# In this version, I am renaming variables to something more legible, and
+# documenting them before I need them
+
+# Key variables for a session
+# NumBurs - Number of bureaucrats
+# MaxIter - Maximum Iterations
+
+# Defined in BigLoop1a
+#   Trials - Number of trials (or replications of an original simulation)
+#   ResponseParms - Response Parameters (mean, sd ~ unif)
+#   SupObsParms - Observability of each bureaucrat (mean, sd ~ unif)
+#   BurObsParms - Observability of each bureaucrat to one another (mean, sd ~ unif)                 #Needed???
+#   Obsty - Symmetric (NumBurs x NumBurs) matrix of probabilities of observability ~ unif
+#   SupObsty - Vector of probabilities that supervisor sees each bureaucrat ~ normal                #? why normal??
+#   PrefParms - Preferences of the policy (~unif(-1,1))
+#   Tolerance - # of Std Deviations from others that supervisor permits ~ unif(-2,0)
+#   Std - Minimum acceptable performance (~unif)
+#   Punishment - How much punishment is levied (unif(-2,0))
+#   Performance - Record of each bureaucrat's performance (MaxIter x NumBurs)
+
+BigLoop1a <- function(Trials, binary=FALSE, NumBurs=10, MaxIter=10) {
+  # This routine randomly draws the assorted parameters
+  # and stores the final mean supoutc as a dependent var
+  # Version 1a calls policy 1a (relative punishment) based on punrate
+  
+  # parameters to BigLoop1a:
+  #  Trials: number of trials per iteration
+  #  binary: true/false, where FALSE is default and is the original simulation
+  #            and TRUE will yield real connectivity measures)
+  #  NumBurs: integer, default is 10 (as in WSS)
+  #  MaxIter: integer, default is 10 (as in WSS)
+
+  # Build a big matrix (Results) of results per trial
+
+  Results <- array(data=rep(Trials*17,0), dim=c(Trials, 17))                    
+  
+  # Loop starts here ("go")
+  for (trialct in 1:Trials) {
+    ResponseParms <- runif(2)
+    ResponseParms[1] <- -1+2*ResponseParms[1]
+    
+    # draw SupObsParms randomly for policy 1a/1b/2a/2b
+    SupObsParms <- runif(2)
+    
+    # uncomment for policy 1c/2c
+    BurObsParms <- runif(2)
+    
+    # observability matrix (for bureaucrats) dist'd unif(0,1)
+    # symmetric (x sees y sees x equally), where each entry is
+    # probability of seeing
+    # (obsty has to be global for the connectivity check)
+    Obsty <- array(runif(NumBurs^2),dim=c(NumBurs,NumBurs))               ## seems like numburs must be global??
+    Obsty[lower.tri(Obsty)] <- t(Obsty)[lower.tri(Obsty)]
+    
+    if (binary) Obsty <- trunc(.5+Obsty)
+    diag(Obsty) <- 1
+    
+    # supervisor observability (see and be seen, here) dist'd unif(0,1)   ## I say unif in the code, but seems norm??
+    SupObsty <- rnorm(NumBurs, mean=SupObsParms[1], sd=SupObsParms[2])
+    SupObsty[SupObsty < 0] <- 0
+    SupObsty[SupObsty > 1] <- 1
+    
+    # Set the range of Preferences (why did I call it popparms??)        ## NOT IN ORIGINAL CODE
+    PrefParms <- c(runif(1, min=-1, max=1), runif(1))
+    
+    # Punishment is for policy1a/2a
+    Tolerance <- runif(1, min=-2, max=0)
+    
+    # std is for policy 1b/1c/2b/2c
+    Std <- runif(1)
+    Punishment <- runif(1,min=0, max=2)
+    
+    Connectivity <- analyze(Obsty)                                         ## wouldn't seem that obsty has to be global
+    
+    # this version of the policy routine
+    # assigns outcomes on the basis of dowhat * response
+    # unless the saboteur is caught
+      
+    # Response - What Bureaucrats do this round (~ truncated normal ([-1,1], resp_parms))
+    # Catch - Do I catch anyone? (dummy)
+    # Prefs - Preferences of each Bureaucrat (~ trunc normal ([-1,1], prefs_parms))
+    # BurUtil - Bureaucrats' Utility 
+    # SupUtil - Supervisor's Utility (mean and sd of bureaucrats' performance)
+    # SupSeen - Who does supervisor see this round?
+    # BurUtilSeen - Utility of Bureaucrats who are Seen by Bureaucrats 
+    # Envy - Which bureaucrat does each bureaucrat envy (highest utility)?
+      
+    # Store the results overall in Performance                                ## Do I want Performance Record to be global?
+    Performance <- array(0, dim=c(MaxIter,1+NumBurs))
+      
+    # iter - iteration counter
+    #
+    # get initial conditons
+    # burs respond over -1 to 1, dist'd normally
+    Response <- rnorm(NumBurs, mean=ResponseParms[1], sd=ResponseParms[2])
+    Response[Response < -1] <- -1
+    Response[Response > 1] <- 1
+    
+    # change call below to switch policy variation
+      
+    # set counters to zero, open result matrices
+    Catch <- 0
+    BurUtil <- array(0, dim=c(MaxIter, NumBurs))                 ## Do I want this to be global?
+    SupUtil <- array(0, dim=c(MaxIter, 2))
+      
+    #getpolicy(mnpop)                                                       ## divergence!!! scope prevents this from working
+    Prefs <- rnorm(NumBurs, mean=PrefParms[1], sd=PrefParms[2])
+
+      # play: go from here
+      for (iter in 1:MaxIter) {
+
+        # Do ranges from -1 (complete defection) to 1 (complete compliance)
+        Do <- Response
+        
+        # outcome equals desires times do
+        BurUtil[iter,] <- Prefs*Do
+        # supervisor enforces against those she sees defecting
+        SupUtil[iter,] <- c(mean(Do), sd(Do))
+        
+        Seen <- trunc(SupObsty+runif(1))
+        
+        deviants <- (Do-SupUtil[iter,1]) < (Tolerance*SupUtil[iter,2])
+        seendeviants <- deviants * Seen
+        WhoCaught <- which(as.logical(seendeviants))
+                
+        # L{c(((punrateXsupoutc[iter;2])>do-supoutc[iter;1])Xs/Inumbers                 ## leave this commented??
+        if(length(WhoCaught)!=0) {
+          Catch <- Catch + 1
+          BurUtil[iter,WhoCaught] <- BurUtil[iter,WhoCaught] - Punishment
+        }
+        
+        # adapt:
+        BurUtilSeen <- array(data=BurUtil[iter,], dim=c(NumBurs,NumBurs)) %*% Obsty        
+        
+        # choose response of the person you saw who did best
+        Envy <- max.col(t(BurUtilSeen))
+        Response <- Do[Envy]
+        
+        # update didwahat (uncomment if you have didwhat set)                              # needed???
+        #didwhat[iter,] <- do
+        
+        # play again, unless this iteration exceeds maxiter
+      }
+  }
+    colnames(Results) <- c("SupUtilMean", "SupUtilSD", "PrefMean", "PrefSD", "RespMean", "RespSD",
+                           "SupObsMean", "SupObsSD", "BurObsMean", "BurObsSD",
+                           "Tolerance", "Punishment", "Connectivity", "ActualResponseMean", "ActualResponseSD",
+                           "BurUtilMean", "BurUtilSD")
+    as.data.frame(Results)
+}
+
+# analyze is busted
+analyze <- function(o) {
+  igraph::vertex_connectivity(igraph::graph_from_adjacency_matrix(o))
+}
+
+old_analyze <- function(o) {
+  nb <- length(o)^.5
+  # count blind and invisible monads
+  monads <- sum((apply(o, 1, sum) + apply(o, 2, sum))==0)
+  # connected
+  ind <- sort(apply(obsty, 2, sum))
+  k <- nb - max(ind) - 1
+  # impenetrable:
+  # }(0=h{^/(kYind)&(Ik)/exit
+  # go:k{numburs-1Y(h-1)Uind-1
+  # }(~^/(kYind)&Ik)+h-1)/out
+  # ?(0<h{h+1)/go
+  # out: h{h-1
+  # exit: C all done
+}
