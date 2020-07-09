@@ -1,15 +1,21 @@
 Package: BadApple
 Title: Functions to simulate bureaucracies
-Version: 1.1b1
+Version: 1.1.3
 Authors@R: 
     person(given = "John",
            family = "Brehm",
            role = c("aut", "cre"),
            email = "jjbrehm@uchicago.edu",
            comment = c(ORCID = "YOUR-ORCID-ID"))
-Description: Package contains functions to simulate bureaucracies, as in \emph{Working, Shirking, and Sabotage} (Brehm and Gates 1997)
-License: `use_mit_license()`
+Description: Package contains functions to simulate bureaucracies, as in \emph{Working, Shirking, and Sabotage} 
+  (John Brehm and Scott Gates. 1997. Ann Arbor, MI: University of Michigan Press.).
+License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.1.1
+Suggests: 
+    testthat
+Imports: 
+    igraph,
+    tidyr
