@@ -13,5 +13,5 @@ betamle(fmu, method = "BFGS", data, brange)
 
 }
 \description{
-Title
+Really, now.
 }

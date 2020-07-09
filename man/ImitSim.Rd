@@ -28,9 +28,9 @@ Punishment, SupObsParms, PrefParms, RespParms, BurObsParms)
   \item{Tolerance}{Number (float) of standard deviations away from mean that the supervisor will regard as being
     deviant. Only makes sense if the "supervision is "Relative".}
   \item{Std}{Number (float) in range (-1,1) for supervisor to regard as the floor for performance. Only makes sense if
-    the \text{supervision} is "Fixed".}
+    the supervision is "Fixed".}
   \item{Punishment}{Number (float) subtracted from each deviant bureaucrat.}
-  \item{SupObsParms}{Vector (mean,sd) for the observability of the supervisor. Can be redunddant with \text{omniscient}, which sets all bureaucrats as visiible (i.e., equivalent to \text{SupObsPamrs=c(1,0)}}
+  \item{SupObsParms}{Vector (mean,sd) for the observability of the supervisor. Can be redunddant with omniscient, which sets all bureaucrats as visiible (i.e., equivalent to SupObsPamrs=c(1,0)}
   \item{PrefParms}{Vector (mean,sd) for the preferences of the bureaucrat.}
   \item{RespParms}{Vector (mean,sd) for the responses of the bureaucrats.}
   \item{BurobsParms}{Vector (mean,sd) for the observability of each bureaucrat to one another.}
@@ -81,4 +81,5 @@ Makes use of the igraph library. You should have it installed.
 # To replicate Table 3.1 with relative supervision, allowing for preferences to be (-1,1)
 wss <- ImitSim(1000)
 hist(wss$ExecSummary$SupUtilMean)
+}
 
