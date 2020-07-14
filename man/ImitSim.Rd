@@ -36,7 +36,6 @@ Punishment, SupObsParms, PrefParms, RespParms, BurObsParms)
   \item{BurobsParms}{Vector (mean,sd) for the observability of each bureaucrat to one another.}
 %%     ~~Describe \code{x} here~~
 }
-}
 \details{
 This might be the place for text about the way the function will work.
 %%  ~~ If necessary, more details than the description above ~~
