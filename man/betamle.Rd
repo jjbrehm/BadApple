@@ -2,7 +2,7 @@
 % Please edit documentation in R/betamle.r
 \name{betamle}
 \alias{betamle}
-\title{Title}
+\title{Maximum Likelihood Estimates of the Beta Density (2 parameter)}
 \usage{
 betamle(formula, data, brange)
 }
@@ -12,8 +12,10 @@ betamle(formula, data, brange)
 \item{data}{Required.}
 }
 \value{
-
+Returns nothing, just prints the output. I really do need to fix this.
 }
 \description{
-Simple change to argument list (2:02pm, 14 july)
+Computes the MLE for the Beta density (2 parameter), defined over c(min,max). Computes coeficients for the $\nu, $\omega$ with an exponential link, plus SEs, Z-scores, and p-values.
+
+In a subsequent version, I would like the function to return as objects as well.
 }
