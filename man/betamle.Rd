@@ -4,14 +4,16 @@
 \alias{betamle}
 \title{Title}
 \usage{
-betamle(fmu, method = "BFGS", data, brange)
+betamle(formula, data, brange)
 }
 \arguments{
-\item{brange}{}
+\item{formula}{Required, standard R formula.}
+\item{brange}{Required, c(min,max) for range of the DV (inclusive)}
+\item{data}{Required.}
 }
 \value{
 
 }
 \description{
-Title
+Simple change to argument list (2:02pm, 14 july)
 }
