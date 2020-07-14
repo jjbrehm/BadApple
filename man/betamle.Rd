@@ -2,16 +2,18 @@
 % Please edit documentation in R/betamle.r
 \name{betamle}
 \alias{betamle}
-\title{Title}
+\title{Maximum Likelihood Estimates of the Beta Density (2 Parameter)}
 \usage{
-betamle(fmu, method = "BFGS", data, brange)
+betamle(formula, data, brange)
 }
 \arguments{
-\item{brange}{}
+\item{formula}{Required. Standard R formula ("dv ~ iv1 + iv2...")}
+\item{data}{Required. Dataframe preferred.}
+\item{brange}{Required, in form "c(min, max)" and estimates for Beta Density scaled to range (min,max) exclusive.}
 }
 \value{
-
+Doesn't return anything. Will be fixed once I'm convinced the package works.
 }
 \description{
-Really, now.
+I really hope that what I am writing here is actually stable.
 }

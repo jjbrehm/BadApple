@@ -16,7 +16,7 @@
 #' @examples
 plot_performance <- function(w) {
   temp.t <- tidyr::as_tibble(w$TallPerformance)
-  ggplot(temp.t, aes(x=Iteration, y=Performance, group=Replication)) +
+  ggplot(temp.t, aes(x=Iteration, y=Performance, group=interaction(Replication, Bureaucrat))) +
     geom_line(alpha=.1) +
     theme_minimal()
 }

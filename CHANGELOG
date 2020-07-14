@@ -35,20 +35,25 @@ CHANGELOG
 #   x Check that bureaucrats are adapting behavior on basis of observed utility (ok)
 #   x Check that supervisor is assigning puhishment to the deviants she sees (ok)
 
-# Version 1.1b3: debugging (8 july 2020)
+# Version 1.1b3: debugging (11 july 2020)
 #   x Wrote an igraph version of plot_bgraph(simobj, repl) which creates a "plot"-able
 #     object than can be converted in to a matrix of up to 4x4 n-graph plots
 #   x Wrote a ggraph version of plot_ibgraph(simobj, repl), which produces a ggraph,
 #     not tested yet if it is combiinable
 #   x Added an option to write a new, tall matrix, TallPerformance:
 #     (Replication, Iteration, Connectivity, Worker, Performance)
-#   ! Wrote a simple function to plot_performance(simobj), which plots the
+#   x Wrote a simple function to plot_performance(simobj), which plots the
 #     performance of every bureaucrat over iteration (replications *and* bureaucrats as separate lines);
 #     some ugliness about the plots: why the vertical bars at each point?
+#       FIXED: set group=interaction(Replication, Bureaucrat) to get sep lines for each bcrat and repl
 #   ! Wrote rearranger.R,
 #     NOT sure there isn't a bug in the script
-#   ! Discovered several new concerns about how learning is operating, probably traceable to the
+#   x Discovered several new concerns about how learning is operating, probably traceable to the
 #     creation of the Envy variable in ImitSim.
 #       -> Not clear that the "Envy"ied bureaucrat is the highest utility _seen_
 #       -> How else would it be possible that isolated bureaucrats would envy anyone?
 #          (I.e., run ImitSim(1000, BurObsParms=c(0,0)))
+#       FIXED: set unobserved to NA, not 0, so BurUtilSeen of the inviisible bureaucrat is 0
+
+#    ! Still to check: performance of model under the WSS conditions (posprefs, fixed supervision, omnniscient super)
+

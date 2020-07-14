@@ -73,7 +73,7 @@ ImitSim <- function(Replications, binary=TRUE, NumBurs=10, MaxIter=10,
                       supervision="Relative", posprefs=FALSE, omniscient=FALSE,
                       tallperformance=FALSE,
                       SupObsParms=c(-99,-99), Tolerance=-99, Std=-99, Punishment=-99,
-                      ResponseParms=c(-99,-99), PrefParms=c(-99,-99), BurObsParms=c(-99,-99)) {
+                      ResponseParms=c(-99,-99), PrefParms=c(-99,-99), BurObsParms=c(-99,-99), debug=FALSE) {
   # This routine randomly draws the assorted parameters
   # and stores the final mean supoutc as a dependent var
   # Version 1a calls policy 1a (relative punishment) based on punrate
@@ -105,6 +105,7 @@ ImitSim <- function(Replications, binary=TRUE, NumBurs=10, MaxIter=10,
     Init_PrefParms <- PrefParms
   if (BurObsParms[1] != -99) cat("BurObsParms", BurObsParms, "\n")
     Init_BurObsParms <- BurObsParms
+  if (debug) cat("DEBUGGING ACTIVE\n")
 
 
   ExecSummary <- array(data=rep(Replications*17,0), dim=c(Replications, 17))
@@ -161,6 +162,8 @@ ImitSim <- function(Replications, binary=TRUE, NumBurs=10, MaxIter=10,
     Obsty <- pnorm(Obsty)
     Obsty[lower.tri(Obsty)] <- t(Obsty)[lower.tri(Obsty)]
     Obsty <- Obsty>.5
+    Obsty[Obsty==0] <- NA
+
     diag(Obsty) <- 1
 
     ObstyRecord <- rbind(ObstyRecord,cbind(rep(repl_ct,NumBurs),Obsty))
@@ -223,6 +226,12 @@ ImitSim <- function(Replications, binary=TRUE, NumBurs=10, MaxIter=10,
       Prefs[Prefs > 1] = 1
     }
 
+    if (debug) {
+      cat("\n============\nReplication:", repl_ct, "\n============\n")
+      cat("Obsty:\n")
+      print(Obsty)
+      }
+
     # play: go from here
     for (iter in 1:MaxIter) {
 
@@ -239,37 +248,89 @@ ImitSim <- function(Replications, binary=TRUE, NumBurs=10, MaxIter=10,
             TallPerformance <- rbind(TallPerformance, c(repl_ct, iter, Connectivity, b, Response[b]))
 
         # outcome equals desires times do
+        if (debug) {
+          cat("Prefs:\n")
+          print(Prefs)
+          cat("Do:\n")
+          print(Do)
+        }
         BurUtil[iter,] <- Prefs*Do
+
+        if (debug) {
+          cat("BurUtil (before supervision)\n")
+          print(BurUtil[iter,])
+        }
+
         # supervisor enforces against those she sees defecting
         SupUtil[iter,] <- c(mean(Do), sd(Do))
 
         Seen <- trunc(SupObsty+runif(1))
+
+        if (debug) {
+          cat("Seen:\n")
+          print(Seen)
+        }
+
         SeenRecord <- rbind(SeenRecord, cbind(repl_ct, iter, t(Seen)))
 
         # Relative tolerance => deviants are those whose behavior is below "Mean - Tolerance*SD"
         # Fixed supervision => deviants are less than Std units (on a -1,1 scale)
         if (supervision == "Relative") deviants <- Do < SupUtil[iter,1] - (Tolerance*SupUtil[iter,2])
         else if (supervision == "Fixed") deviants <- Do < Std
+        if (debug){
+          cat("deviants:\n")
+          print(deviants)
+        }
 
         # still have to be deviant even if omniscient
         if (!omniscient) seendeviants <- deviants * Seen
         else seendeviants <- deviants
+        if (debug) {
+          cat("seendeviants:\n")
+          print(seendeviants)
+        }
+
         WhoCaught <- which(as.logical(seendeviants))
+        if (debug) {
+          cat("WhoCaught:\n")
+          print(WhoCaught)
+        }
 
         if(length(WhoCaught)!=0) {
           Catch <- Catch + 1
           BurUtil[iter,WhoCaught] <- BurUtil[iter,WhoCaught] - Punishment
         }
+        if (debug) {
+          cat("---\nBurUtil (after supervision)\n")
+          print(BurUtil[iter,])
+        }
 
         # adapt:
-        BurUtilSeen <- array(data=BurUtil[iter,], dim=c(NumBurs,NumBurs)) %*% Obsty
+        BurUtilAll <- array(data=BurUtil[iter,], dim=c(NumBurs, NumBurs))
+        if (debug) {
+          cat("BurUtilAll\n:")
+          print(BurUtilAll)
+        }
+
+        BurUtilSeen <- array(NA, dim=c(NumBurs, NumBurs))
+
+        for (i in 1:NumBurs) BurUtilSeen[i,] <- BurUtilAll[i,] * Obsty[i,]
+
+        if (debug) {
+          cat("\nBurUtilSeen:\n")
+          print(BurUtilSeen)
+        }
 
         # choose response of the person you saw who did best
-        Envy <- max.col(BurUtilSeen)
-        #UtilEnvy <- apply(BurUtilSeen, 1, max)  # trying max.row (which doesn't exist)
-        #print(UtilEnvy)
-        #print(which(BurUtilSeen == UtilEnvy)  %% NumBurs)
+
+        Envy <- apply(BurUtilSeen, 2, which.max)
+        if (debug) {
+          cat("\nEnvy:\n")
+          print(Envy)
+        }
+        if (debug) cat("\nOld Response:\n", Do)
         Response <- Do[Envy]
+        if (debug) cat("\nNew Response:\n", Response)
 
         # play again, unless this iteration exceeds maxiter
       }
@@ -293,7 +354,7 @@ ImitSim <- function(Replications, binary=TRUE, NumBurs=10, MaxIter=10,
   }
 
   if (tallperformance)
-    BigList <- list("Version" = "1.1b2",
+    BigList <- list("Version" = "1.1b3",
                     "NumBurs" = NumBurs,
                     "MaxIter" = MaxIter,
                     "Replications" = Replications,
@@ -307,7 +368,7 @@ ImitSim <- function(Replications, binary=TRUE, NumBurs=10, MaxIter=10,
                     "ObstyRecord" = ObstyRecord,
                     "SeenRecord" = SeenRecord)
   if (!tallperformance)
-    BigList <- list("Version" = "1.1b2",
+    BigList <- list("Version" = "1.1b3",
                     "NumBurs" = NumBurs,
                     "MaxIter" = MaxIter,
                     "Replications" = Replications,
