@@ -2,16 +2,16 @@
 % Please edit documentation in R/plot_performance.R
 \name{plot_performance}
 \alias{plot_performance}
-\title{Title}
+\title{Plot performance of bureaucrats from a simulation object}
 \usage{
 plot_performance(w)
 }
 \arguments{
-\item{w}{}
+\item{w}{A simulation object}
 }
 \value{
-
+Returns nothing, uses ggplot, and could return a ggplot-object easily.
 }
 \description{
-Title
+Function returns a pretty (ggplot) of the performance of the bureaucrats in a simulation, using the "TallPerformance" part of the simulation object. Hence the simulation has to be called with "tallperformance=TRUE". Requires that ggplot be loaded.
 }

@@ -2,16 +2,16 @@
 % Please edit documentation in R/rearranger.R
 \name{rearranger}
 \alias{rearranger}
-\title{Title}
+\title{Rearranges the performance record of SimObj (buggy)}
 \usage{
 rearranger(simobj)
 }
 \arguments{
-\item{simobj}{}
+\item{simobj}{A simulation object (e.g., from ImitSim())}
 }
 \value{
-
+Returns something, maybe.
 }
 \description{
-Title
+Function uses tidyr::pivot_longer functions, and seems to be very buggy. Not here, but in tidyr. Probably not useful until the tidyr function works.
 }

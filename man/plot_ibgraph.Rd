@@ -2,16 +2,17 @@
 % Please edit documentation in R/plot_bigraph.R
 \name{plot_ibgraph}
 \alias{plot_ibgraph}
-\title{Title}
+\title{(Incomplete) N-graph plotter using ggraph}
 \usage{
 plot_ibgraph(imit_obj, repl_num)
 }
 \arguments{
-\item{repl_num}{}
+\item{imit_obj}{An object from the imitation models (so far, only ImitSim)}
+\item{repl_num}{A replication number
 }
 \value{
-
+Returns nothing. Should fix this, too.
 }
 \description{
-Title
+Produces a pretty incomplete n-graph of the network of bureaucrats found in the Obsty matrix in the simulation object, imit_obj. Uses ggraph and igraph, and probably best if these are loaded first. Would really be nice if this would allow for multiple graphs, such as for latticed/paned plots.
 }
