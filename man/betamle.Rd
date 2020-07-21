@@ -15,7 +15,7 @@ betamle(formula, data, brange)
 Returns nothing, just prints the output. I really do need to fix this.
 }
 \description{
-Computes the MLE for the Beta density (2 parameter), defined over c(min,max). Computes coeficients for the $\nu, \omega$ with an exponential link, plus SEs, Z-scores, and p-values.
+Computes the MLE for the Beta density (2 parameter), defined over c(min,max). Computes coeficients for the nu, omega with an exponential link, plus SEs, Z-scores, and p-values.
 
 In a subsequent version, I would like the function to return as objects as well.
 }
