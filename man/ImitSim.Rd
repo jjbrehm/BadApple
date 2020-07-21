@@ -46,8 +46,8 @@ This might be the place for text about the way the function will work.
 %%  \item{comp1 }{Description of 'comp1'}
 %%  \item{comp2 }{Description of 'comp2'}
 %% ...
-\item{ExecSummary }{Returns a (tidy-ready) dataframe that contains:  Replication, Iteration, SupUtilMean, SupUtilSD, PrefMean, PrefSD, ResponseMean, ResponseSD, SupObsMean, SupObsSD, BurObsMean, BurObsSD, Tolerance (or Std), Punishment, Connectivity, FinalResponseMean, FinalResponseSD, BurUtilMean, BurUtilSD}
-\item{version }{1.1b1}
+\item{ExecSummary }{Returns a (tidy-ready) dataframe that contains:  \verb{Replication, Iteration, SupUtilMean, SupUtilSD, PrefMean, PrefSD, ResponseMean, ResponseSD, SupObsMean, SupObsSD, BurObsMean, BurObsSD, Tolerance (or Std),} \verb{Punishment, Connectivity, FinalResponseMean, FinalResponseSD, BurUtilMean, BurUtilSD}}
+\item{version }{1.1b3}
 \item{NumBurs }{Number of bureaucrats (default=10)}
 \item{MaxIter }{Number of iterations per replication (default=10)}
 \item{binary }{Whether the connectivity of the observability is computed using a binary adjacency matrix.}

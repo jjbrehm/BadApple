@@ -2,7 +2,7 @@
 % Please edit documentation in R/rearranger.R
 \name{rearranger}
 \alias{rearranger}
-\title{Rearranges the performance record of SimObj (buggy)}
+\title{Rearranges the performance record of SimObj}
 \usage{
 rearranger(simobj)
 }
@@ -10,8 +10,8 @@ rearranger(simobj)
 \item{simobj}{A simulation object (e.g., from ImitSim())}
 }
 \value{
-Returns something, maybe.
+Returns a \verb{ggplot} object (or plots it directly).
 }
 \description{
-Function uses tidyr::pivot_longer functions, and seems to be very buggy. Not here, but in tidyr. Probably not useful until the tidyr function works.
+Function uses tidyr::pivot_longer functions, and might be very buggy. Not here, but in tidyr. Would duplicate \verb{plot_performaance} and with \verb{tallperformance=TRUE} in \verb{ImitSim} except much faster.
 }

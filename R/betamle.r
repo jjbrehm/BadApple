@@ -75,5 +75,15 @@
 	    cat("\nLikelihood:",-result$value,"\n")
     else
 	    cat("\nDid NOT converge\n")
+
+	  rval <- list("coef"=coef,
+	               "coef_nu"=coef_nu,
+	               "coef_omega"=coef_omega,
+	               "var"=var,
+	               "var_nu"=var_nu,
+	               "var_omega"=var_omega,
+	               "results" = res,
+	               "Likelihood"=-result$value)
+	  rval
   }
 
