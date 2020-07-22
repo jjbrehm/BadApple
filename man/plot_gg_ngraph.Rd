@@ -8,7 +8,7 @@ plot_gg_ngraph(imit_obj, repl_num)
 }
 \arguments{
 \item{imit_obj}{An object from the imitation models (so far, only ImitSim)}
-\item{repl_num}{A replication number
+\item{repl_num}{A replication number}
 }
 \value{
 Returns a \verb{ggraph} object.
