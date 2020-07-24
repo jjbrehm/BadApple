@@ -2,25 +2,16 @@
 % Please edit documentation in R/betamle.r
 \name{betamle}
 \alias{betamle}
-\title{Maximum Likelihood Estimates of the Beta Density (2 parameter)}
+\title{Title}
 \usage{
-betamle(formula, data, brange)
+betamle(fmu, method = "BFGS", data, brange)
 }
 \arguments{
-\item{formula}{Required, standard R formula.}
-\item{brange}{Required, \verb{c(min,max)} for range of the DV (inclusive)}
-\item{data}{Required.}
+\item{brange}{}
 }
 \value{
-\item{results}{Matrix with the results of the MLE estimates including coefficients, SEs, Zs, p values for both \eqn{\nu, \omega}.}
-\item{coef_nu}{Coeficients for \eqn{\nu}}
-\item{coef_omega}{Coeficients for \eqn{omega}}
-\item{coef}{Coeficients for both \eqn{\nu, \omega}, stacked}
-\item{var_nu}{Variance for \eqn{\nu}}
-\item{var_omega}{Variance for \eqn{\omega}}
-\item{var}{Variance-Covariance matrix for both \eqn{\nu, \omega}}
-\item{Likelhood}{Log-Likelihood for the betamle estimates>}
+
 }
 \description{
-Computes the MLE for the Beta density (2 parameter), defined over c(min,max). Computes coeficients for the \eqn{\nu, \omega} with an exponential link, plus SEs, Z-scores, and p-values.
+Title
 }

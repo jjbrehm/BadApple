@@ -2,16 +2,16 @@
 % Please edit documentation in R/rearranger.R
 \name{rearranger}
 \alias{rearranger}
-\title{Rearranges the performance record of SimObj}
+\title{Title}
 \usage{
 rearranger(simobj)
 }
 \arguments{
-\item{simobj}{A simulation object (e.g., from ImitSim())}
+\item{simobj}{}
 }
 \value{
-Returns a \verb{ggplot} object (or plots it directly).
+
 }
 \description{
-Function uses tidyr::pivot_longer functions, and might be very buggy. Not here, but in tidyr. Would duplicate \verb{plot_performaance} and with \verb{tallperformance=TRUE} in \verb{ImitSim} except much faster.
+Title
 }
