@@ -14,5 +14,7 @@ plot_ibgraph(imit_obj, repl_num)
 \item{ggraph_obj}{Returns a \verb{ggraph} object}
 }
 \description{
+Bloody hell. This should be in the damned file.
+
 Takes as input the name of an output from a imitation simulation (\verb{imit_obj}) and a specific replication number, and then returns a \verb{ggraph} object. Can be combined with other calls to make a grid of n-graphs using \verb{gridExtra}.
 }
