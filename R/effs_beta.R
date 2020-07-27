@@ -3,6 +3,8 @@
 #  - calculates a baseline effect at "base"
 #  - swaps out each element of the test vector into "base", calculate test effect for that element
 
+# I just don't know why this isn't up.
+
 effs_beta <- function(betaobj, brange=c(0,1), base, test) {
   baseline <- mean_beta(betaobj, base, brange=brange)
 
