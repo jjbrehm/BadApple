@@ -142,6 +142,8 @@ ImitSim <- function(Replications, binary=TRUE, NumBurs=10, MaxIter=10,
     # uncomment for policy 1c/2c
     if (BurObsParms[1] == -99) BurObsParms <- runif(2)
 
+    cat("Output BurObsParms", BurObsParms, "\n")
+
     ### Probably a bug from the original code: the Obsty matrix was always hyperconnected,
     ### which really shouldn't be the case.
     ###
