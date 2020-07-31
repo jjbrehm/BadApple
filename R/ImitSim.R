@@ -64,6 +64,8 @@ require("igraph")
 #' @param PrefParms vector(2)
 #' @param BurObsParms vector(2)
 #' @param tallperformance logical
+#' @param quiet logical
+#' @param debug logical
 #'
 #' @return
 #' @export
@@ -73,39 +75,42 @@ ImitSim <- function(Replications, binary=TRUE, NumBurs=10, MaxIter=10,
                       supervision="Relative", posprefs=FALSE, omniscient=FALSE,
                       tallperformance=FALSE,
                       SupObsParms=c(-99,-99), Tolerance=-99, Std=-99, Punishment=-99,
-                      ResponseParms=c(-99,-99), PrefParms=c(-99,-99), BurObsParms=c(-99,-99), debug=FALSE) {
+                      ResponseParms=c(-99,-99), PrefParms=c(-99,-99), BurObsParms=c(-99,-99),
+                      quiet=FALSE, debug=FALSE) {
   # This routine randomly draws the assorted parameters
   # and stores the final mean supoutc as a dependent var
   # Version 1a calls policy 1a (relative punishment) based on punrate
 
-  cat("Running Imit Sim over", Replications, "Replications\n")
-  cat(" with NumBurs", NumBurs, "\n")
-  cat(" over MaxIter", MaxIter, "\n")
+  if (!quiet) {
+    cat("Running Imit Sim over", Replications, "Replications\n")
+    cat(" with NumBurs", NumBurs, "\n")
+    cat(" over MaxIter", MaxIter, "\n")
 
-  cat("Other parameters:\n")
-  cat(" supervision:", supervision, "\n")
-  if (!posprefs) cat(" with random preferences\n")
-    else cat(" with positive preferences\n")
-  if (!omniscient) cat(" without omniscient supervisor\n")
-    else cat(" with omniscient supervisor\n")
-  if (tallperformance) cat(" with TallPerformance record (SLOW)\n")
-    else cat(" without TallPerformance record\n")
+    cat("Other parameters:\n")
+    cat(" supervision:", supervision, "\n")
+    if (!posprefs) cat(" with random preferences\n")
+      else cat(" with positive preferences\n")
+    if (!omniscient) cat(" without omniscient supervisor\n")
+      else cat(" with omniscient supervisor\n")
+    if (tallperformance) cat(" with TallPerformance record (SLOW)\n")
+      else cat(" without TallPerformance record\n")
 
-  if (SupObsParms[1] != -99) cat("SupObsParms", SupObsParms, "\n")
-    Init_SupObsParms <- SupObsParms
-  if (Tolerance != -99) cat("Tolerance", Tolerance, "\n")
-    Init_Tolerance <- Tolerance
-  if (Punishment != -99) cat("Punishment", Punishment, "\n")
-    Init_Punishment <- Punishment
-  if (Std != -99) cat("Std", Std, "\n")
-    Init_Std <- Std
-  if (ResponseParms[1] != -99) cat("ResponseParms", ResponseParms, "\n")
-    Init_ResponseParms <- ResponseParms
-  if (PrefParms[1] != -99) cat("PrefParms", PrefParms, "\n")
-    Init_PrefParms <- PrefParms
-  if (BurObsParms[1] != -99) cat("BurObsParms", BurObsParms, "\n")
-    Init_BurObsParms <- BurObsParms
-  if (debug) cat("DEBUGGING ACTIVE\n")
+    if (SupObsParms[1] != -99) cat("SupObsParms", SupObsParms, "\n")
+      Init_SupObsParms <- SupObsParms
+    if (Tolerance != -99) cat("Tolerance", Tolerance, "\n")
+      Init_Tolerance <- Tolerance
+    if (Punishment != -99) cat("Punishment", Punishment, "\n")
+      Init_Punishment <- Punishment
+    if (Std != -99) cat("Std", Std, "\n")
+      Init_Std <- Std
+    if (ResponseParms[1] != -99) cat("ResponseParms", ResponseParms, "\n")
+      Init_ResponseParms <- ResponseParms
+    if (PrefParms[1] != -99) cat("PrefParms", PrefParms, "\n")
+      Init_PrefParms <- PrefParms
+    if (BurObsParms[1] != -99) cat("BurObsParms", BurObsParms, "\n")
+      Init_BurObsParms <- BurObsParms
+    if (debug) cat("DEBUGGING ACTIVE\n")
+  }
 
 
   ExecSummary <- array(data=rep(Replications*17,0), dim=c(Replications, 17))

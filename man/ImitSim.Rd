@@ -34,6 +34,8 @@ Punishment, SupObsParms, PrefParms, RespParms, BurObsParms)
   \item{PrefParms}{Vector (mean,sd) for the preferences of the bureaucrat.}
   \item{RespParms}{Vector (mean,sd) for the responses of the bureaucrats.}
   \item{BurobsParms}{Vector (mean,sd) for the observability of each bureaucrat to one another.}
+  \item{debug}{If TRUE, prints debugging information.}
+  \item{quiet}{If TRUE, prints no startup information (but will print debugging information, if requested).}
 %%     ~~Describe \code{x} here~~
 }
 \details{
