@@ -11,7 +11,7 @@ require("igraph")
 # Call:
 # ImitSim(Replications, NumBurs=10, MaxIter=10, binary=TRUE, supervision="Relative")
 #   - Returns:
-#     $Version: "1.1b1"
+#     $Version: "1.1"
 #     $NumBurs: as set, or default=10
 #     $MaxIter: as set, or default=10
 #     $binary: as set, or default=TRUE. Produces an error for "FALSE" since connectivity
@@ -46,6 +46,7 @@ require("igraph")
 #   supervision - "Relative" (1a) or Fixed" (1b/1c/2b/2c)
 #   posprefs - FALSE (default) or TRUE (prefs > 0 (2a/2b/2c))
 #   omniscient - FALSE (default) or TRUE (supervisor can see everyone, 1c, 2c)
+#   quiet - FALSE (default) or TRUE (no output)
 
 #' ImitSim
 #'
@@ -66,6 +67,7 @@ require("igraph")
 #' @param tallperformance logical
 #' @param quiet logical
 #' @param debug logical
+#' @param quiet logical
 #'
 #' @return
 #' @export
@@ -359,7 +361,7 @@ ImitSim <- function(Replications, binary=TRUE, NumBurs=10, MaxIter=10,
   }
 
   if (tallperformance)
-    BigList <- list("Version" = "1.1b3",
+    BigList <- list("Version" = "1.1",
                     "NumBurs" = NumBurs,
                     "MaxIter" = MaxIter,
                     "Replications" = Replications,
@@ -373,7 +375,7 @@ ImitSim <- function(Replications, binary=TRUE, NumBurs=10, MaxIter=10,
                     "ObstyRecord" = ObstyRecord,
                     "SeenRecord" = SeenRecord)
   if (!tallperformance)
-    BigList <- list("Version" = "1.1b3",
+    BigList <- list("Version" = "1.1",
                     "NumBurs" = NumBurs,
                     "MaxIter" = MaxIter,
                     "Replications" = Replications,

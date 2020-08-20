@@ -1,6 +1,6 @@
 Package: BadApple
 Title: Functions to simulate bureaucracies
-Version: 1.1.3
+Version: 1.1
 Authors@R: 
     person(given = "John",
            family = "Brehm",
