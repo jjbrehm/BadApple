@@ -96,6 +96,7 @@ ImitSim <- function(Replications, binary=TRUE, NumBurs=10, MaxIter=10,
       else cat(" with omniscient supervisor\n")
     if (tallperformance) cat(" with TallPerformance record (SLOW)\n")
       else cat(" without TallPerformance record\n")
+  }
 
     if (SupObsParms[1] != -99) cat("SupObsParms", SupObsParms, "\n")
       Init_SupObsParms <- SupObsParms
@@ -112,7 +113,7 @@ ImitSim <- function(Replications, binary=TRUE, NumBurs=10, MaxIter=10,
     if (BurObsParms[1] != -99) cat("BurObsParms", BurObsParms, "\n")
       Init_BurObsParms <- BurObsParms
     if (debug) cat("DEBUGGING ACTIVE\n")
-  }
+
 
 
   ExecSummary <- array(data=rep(Replications*17,0), dim=c(Replications, 17))
