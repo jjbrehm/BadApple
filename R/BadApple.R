@@ -99,6 +99,9 @@ BadApple <- function(Replications, binary=TRUE, NumBurs=10, MaxIter=10,
                       SabResponseParms=c(-99,-99), SabPrefParms=c(-99,-99), SabBurObsParms=c(-99,-99),
                       SabSupObsParms=c(-99,-99),
                       quiet=FALSE, debug=FALSE) {
+  # This line doesn't belong here, but the fucking github functions are impenetrable. It is only to see
+  # if I can force BadApple to be installed.
+
   # This routine randomly draws the assorted parameters
   # and stores the final mean supoutc as a dependent var
   # Version 1a calls policy 1a (relative punishment) based on punrate
