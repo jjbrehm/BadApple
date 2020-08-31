@@ -9,7 +9,7 @@ require("igraph")
 
 
 # Call:
-# ImitSim(Replications, NumBurs=10, MaxIter=10, binary=TRUE, supervision="Relative")
+# BadApple(Replications, NumBurs=10, MaxIter=10, binary=TRUE, supervision="Relative")
 #   - Returns:
 #     $Version: "2.0a1"
 #     $NumBurs: as set, or default=10
@@ -31,24 +31,33 @@ require("igraph")
 #	wss <- BigLoop1a(1000)
 #     conducts a simulation with default parameters at 1000 Replications (replications)
 
-# Defined in ImitSim
+# Defined in BadApple
 #   Replications - Number of Replications (or replications of an original simulation)
+#   NumBurs - Number of bureaucrats
+#   NumSaboteurs - Number of saboteurs (<NumBurs)
 #   ResponseParms - Response Parameters (mean, sd ~ unif)
+#   SabResponseParms -Response Parameters (mean, sd, ~ unif) of the saboteures
 #   SupObsParms - Observability of each bureaucrat (mean, sd ~ unif)
-#   BurObsParms - Observability of each bureaucrat to one another (mean, sd ~ unif)                 #Needed???
+#   SabSupObsParms - Observability of each saboteur (mean, sd ~ unif)
+#   BurObsParms - Observability of each bureaucrat to one another (mean, sd ~ unif)
+#   SabBurObsParms - Observability of each saboteur _by_ others
 #   Obsty - Symmetric (NumBurs x NumBurs) matrix of probabilities of observability ~ unif
-#   SupObsty - Vector of probabilities that supervisor sees each bureaucrat ~ normal                #? why normal??
+#   SabObsty - Matrix of probability os observability of the saboteurs
+#   SupObsty - Vector of probabilities that supervisor sees each bureaucrat ~ normal
+#   SabSupObsty - Vector of probsabilities that supervisor sees each saboteur
 #   PrefParms - Preferences of the policy (~unif(-1,1))
+#   SabPrefParms - Saboteurs' preferences towards policy
 #   Tolerance - # of Std Deviations from others that supervisor permits ~ unif(-2,0)
 #   Std - Minimum acceptable performance (~unif)
 #   Punishment - How much punishment is levied (unif(-2,0))
+#   SabPunishment - Punishment of each Saboteur
 #   Performance - Record of each bureaucrat's performance (MaxIter x NumBurs)
 #   supervision - "Relative" (1a) or Fixed" (1b/1c/2b/2c)
 #   posprefs - FALSE (default) or TRUE (prefs > 0 (2a/2b/2c))
 #   omniscient - FALSE (default) or TRUE (supervisor can see everyone, 1c, 2c)
 #   quiet - FALSE (default) or TRUE (no output)
 
-#' ImitSim
+#' BadApple
 #'
 #' @param Replications integer
 #' @param binary logical
@@ -64,6 +73,14 @@ require("igraph")
 #' @param ResponseParms vector(2)
 #' @param PrefParms vector(2)
 #' @param BurObsParms vector(2)
+#' @param NumSaboteurs integer
+#' @param SabSupObsParms vector(2)
+#' @param SabPunishment double
+#' @param SabResponseParms vector(2)
+#' @param SabResponseParms vector(2)
+#' @param SabPrefParms vector(2)
+#' @param SabBurObsParms vector(2)
+#' @param SabSupObsParms vector(2)
 #' @param tallperformance logical
 #' @param quiet logical
 #' @param debug logical
@@ -73,11 +90,14 @@ require("igraph")
 #' @export
 #'
 #' @examples
-ImitSim <- function(Replications, binary=TRUE, NumBurs=10, MaxIter=10,
+BadApple <- function(Replications, binary=TRUE, NumBurs=10, MaxIter=10,
                       supervision="Relative", posprefs=FALSE, omniscient=FALSE,
                       tallperformance=FALSE,
                       SupObsParms=c(-99,-99), Tolerance=-99, Std=-99, Punishment=-99,
                       ResponseParms=c(-99,-99), PrefParms=c(-99,-99), BurObsParms=c(-99,-99),
+                      NumSaboteurs=0, SabPunishment=-99,
+                      SabResponseParms=c(-99,-99), SabPrefParms=c(-99,-99), SabBurObsParms=c(-99,-99),
+                      SabSupObsParms=c(-99,-99),
                       quiet=FALSE, debug=FALSE) {
   # This routine randomly draws the assorted parameters
   # and stores the final mean supoutc as a dependent var
@@ -86,6 +106,8 @@ ImitSim <- function(Replications, binary=TRUE, NumBurs=10, MaxIter=10,
   if (!quiet) {
     cat("Running Imit Sim over", Replications, "Replications\n")
     cat(" with NumBurs", NumBurs, "\n")
+    cat(" with NumSaboteurs", NumSaboteurs, "\n")
+    if (NumSaboteurs >= NumBurs) error("NumSaboteurs must be less than NumBurs")
     cat(" over MaxIter", MaxIter, "\n")
 
     cat("Other parameters:\n")
@@ -100,22 +122,31 @@ ImitSim <- function(Replications, binary=TRUE, NumBurs=10, MaxIter=10,
 
     if (SupObsParms[1] != -99) cat("SupObsParms", SupObsParms, "\n")
       Init_SupObsParms <- SupObsParms
+    if (SabSupObsParms[1] != -99) cat("SabSupObsParms", SabSupObsParms, "\n")
+      Init_SabSupObsParms <- SabSupObsParms
     if (Tolerance != -99) cat("Tolerance", Tolerance, "\n")
       Init_Tolerance <- Tolerance
     if (Punishment != -99) cat("Punishment", Punishment, "\n")
       Init_Punishment <- Punishment
+    if (SabPunishment != -99) cat("SabPunishment", SabPunishment, "\n")
+      Init_SabPunishment <- SabPunishment
     if (Std != -99) cat("Std", Std, "\n")
       Init_Std <- Std
     if (ResponseParms[1] != -99) cat("ResponseParms", ResponseParms, "\n")
       Init_ResponseParms <- ResponseParms
+    if (SabResponseParms[1] != -99) cat("SabResponseParms", SabResponseParms, "\n")
+      Init_SabResponseParms <- SabResponseParms
     if (PrefParms[1] != -99) cat("PrefParms", PrefParms, "\n")
       Init_PrefParms <- PrefParms
+    if (SabPrefParms[1] != -99) cat("SabPrefParms", SabPrefParms, "\n")
+      Init_SabPrefParms <- SabPrefParms
     if (BurObsParms[1] != -99) cat("BurObsParms", BurObsParms, "\n")
       Init_BurObsParms <- BurObsParms
+    if (SabBurObsParms[1] != -99) cat("SabBurObsParms", SabBurObsParms, "\n")
+      Init_SabBurObsParms <- SabBurObsParms
     if (debug) cat("DEBUGGING ACTIVE\n")
 
-
-
+# somewhere here I have to _at least_ add a tag for whether bureaucrat is a saboteur or not
   ExecSummary <- array(data=rep(Replications*17,0), dim=c(Replications, 17))
   if (supervision == "Relative")
     colnames(ExecSummary) <- c("SupUtilMean", "SupUtilSD", "PrefMean", "PrefSD", "RespMean", "RespSD",
@@ -144,11 +175,18 @@ ImitSim <- function(Replications, binary=TRUE, NumBurs=10, MaxIter=10,
       ResponseParms[1] <- -1+2*ResponseParms[1]
     }
 
+    if (SabResponseParms[1] == -99) {
+      SabResponseParms <- runif(2)
+      SabResponseParms[1] <- -1+2*SabResponseParms[1]
+    }
+
     # draw SupObsParms randomly for policy 1a/1b/2a/2b
     if (SupObsParms[1] == -99) SupObsParms <- runif(2)
 
     # uncomment for policy 1c/2c
     if (BurObsParms[1] == -99) BurObsParms <- runif(2)
+
+    if (SabBurObsParms[1] == -99) SabBurObsParms <- runif(2)
 
     ### Probably a bug from the original code: the Obsty matrix was always hyperconnected,
     ### which really shouldn't be the case.
@@ -171,22 +209,35 @@ ImitSim <- function(Replications, binary=TRUE, NumBurs=10, MaxIter=10,
     Obsty[lower.tri(Obsty)] <- t(Obsty)[lower.tri(Obsty)]
     Obsty <- Obsty>.5
     Obsty[Obsty==0] <- NA
-
     diag(Obsty) <- 1
+
+    SabObsty <- array(rnorm(NumSaboteurs^2, mean=SabBurObsParms[1], sd=SabBurObsParms[2]), dim=c(NumSaboteurs, NumSaboteurs))
+    SabObsty <- pnorm(SabObsty)
+    SabObsty[lower.tri(SabObsty)] <- t(SabObsty)[lower.tri(SabObsty)]
+    SabObsty <- SabObsty>.5
+    SabObsty[SabObsty==0] <- NA
+    diag(SabObsty) <- 1
+
+    Obsty[1:NumSaboteurs, 1:NumSaboteurs] <- SabObsty
 
     ObstyRecord <- rbind(ObstyRecord,cbind(rep(repl_ct,NumBurs),Obsty))
 
-    # Add to ObstyRecord
-    #ObstyRecord[(repl_ct-1):(repl_ct-1)+NumBurs, ] <- Obsty
+    # Need to create Saboteurs
+    Saboteurs <- c(rep(1,NumSaboteurs), rep(0, (NumBurs-NumSaboteurs)))
 
     # supervisor observability (see and be seen, here) dist'd unif(0,1)   ## I say unif in the code, but seems norm??
     SupObsty <- rnorm(NumBurs, mean=SupObsParms[1], sd=SupObsParms[2])
     SupObsty[SupObsty < 0] <- 0
     SupObsty[SupObsty > 1] <- 1
 
+    #DO create subnetwork of observability _by_ super of saboteur
+
     # Set the range of Preferences (why did I call it popparms??)        ## NOT IN ORIGINAL CODE
     if (posprefs == FALSE & Init_PrefParms[1] == -99) PrefParms <- c(runif(1, min=-1, max=1), runif(1))
     else if (posprefs == TRUE & Init_PrefParms[1] == -99) PrefParms <- c(runif(1, min=0, max=1), runif(1))
+
+    #DO handle prefs for saboteurs here
+    if (Init_SabPrefParms[1] == -99) SabPrefParms <- c(runif(1, min=-1, max=1), runif(1))
 
     ### I'm not sure on the is.null call here. I *know* it's not null
     # "Relative" is for 1a/2a; "Fixed" is for 1b/1c/2b/2c
@@ -194,6 +245,8 @@ ImitSim <- function(Replications, binary=TRUE, NumBurs=10, MaxIter=10,
     else if (supervision == "Fixed") Std <- runif(1, min=-1, max=1)
 
     Punishment <- runif(1,min=0, max=2)
+
+    #DO handle punishment of saboteurs here
 
     if (binary) Connectivity <- analyze(Obsty)                                         ## wouldn't seem that obsty has to be global
      else Connectivity <- old_analyze(Obsty)
@@ -220,6 +273,13 @@ ImitSim <- function(Replications, binary=TRUE, NumBurs=10, MaxIter=10,
     Response[Response < -1] <- -1
     Response[Response > 1] <- 1
 
+    #DO handle saboteurs responses here
+    SabResponse <- rnorm(NumSaboteurs, mean=SabResponseParms[1], sd=SabResponseParms[2])
+    SabResponse[SabResponse < -1] <- -1
+    SabResponse[SabResponse > 1] <- 1
+
+    Response[1:NumSaboteurs] <- SabResponse
+
     # change call below to switch policy variation
 
     # set counters to zero, open result matrices
@@ -233,6 +293,9 @@ ImitSim <- function(Replications, binary=TRUE, NumBurs=10, MaxIter=10,
       Prefs[Prefs < 0] = 0
       Prefs[Prefs > 1] = 1
     }
+    SabPrefs <- rnorm(NumSaboteurs, mean=SabPrefParms[1], sd=SabPrefParms[2])
+
+    Prefs[1:NumSaboteurs] <- SabPrefs
 
     if (debug) {
       cat("\n============\nReplication:", repl_ct, "\n============\n")
@@ -241,6 +304,10 @@ ImitSim <- function(Replications, binary=TRUE, NumBurs=10, MaxIter=10,
       }
 
     # play: go from here
+
+    #DO think about whether saboteurs have to be handled different in the imitation loop (beyond setting
+    #   initial conditions)
+
     for (iter in 1:MaxIter) {
 
         # Do ranges from -1 (complete defection) to 1 (complete compliance)
@@ -374,7 +441,8 @@ ImitSim <- function(Replications, binary=TRUE, NumBurs=10, MaxIter=10,
                     "Performance" = Performance,
                     "TallPerformance" = TallPerformance,
                     "ObstyRecord" = ObstyRecord,
-                    "SeenRecord" = SeenRecord)
+                    "SeenRecord" = SeenRecord,
+                    "Saboteurs" = Saboteurs)
   if (!tallperformance)
     BigList <- list("Version" = "2.0a1",
                     "NumBurs" = NumBurs,
@@ -387,7 +455,8 @@ ImitSim <- function(Replications, binary=TRUE, NumBurs=10, MaxIter=10,
                     "ExecSummary" = as.data.frame(ExecSummary),
                     "Performance" = Performance,
                     "ObstyRecord" = ObstyRecord,
-                    "SeenRecord" = SeenRecord)
+                    "SeenRecord" = SeenRecord,
+                    "Saboteurs" = Saboteurs)
   BigList
 }
 
