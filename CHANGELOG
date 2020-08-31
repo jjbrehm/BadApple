@@ -58,3 +58,16 @@ CHANGELOG
 #    ! Still to check: performance of model under the WSS conditions (posprefs, fixed supervision, omnniscient super)
 
 # Version 1.1: finalized this stage. On to the actual "Bad Apple" model next.
+
+# Version 2.0b1: beginning the BadApple function within the BadApple project
+#    x Define Saboteur parameters (NumSaboteurs, SabBurObsParms, SabPrefParms, SabRespParms,
+#       SabObsParms, SabPunishment)
+#    x Define and use SabObsty, SabPrefs, SabResponses
+#    - Running initial tests on the model (NumSaboteurs = 1, 3, 5; same [draw Prefs and Responses a second time from
+#      same density]; bad_prefs (NumSaboteurs = 1, 3, 5); bad_responses (NumSaboterus = 1, 3, 5); both bad)
+#    - Define and use SabSupObsty
+#    - Running initial tests on the model (NumSaboteurs = 1, 3, 5; same [draw Prefs and Responses a second time from
+#      same density]; bad_prefs (NumSaboteurs = 1, 3, 5); bad_responses (NumSaboterus = 1, 3, 5); both bad)
+#    - Define and use SabPunishment
+#    - Running initial tests on the model (NumSaboteurs = 1, 3, 5; same [draw Prefs and Responses a second time from
+#      same density]; bad_prefs (NumSaboteurs = 1, 3, 5); bad_responses (NumSaboterus = 1, 3, 5); both bad)
