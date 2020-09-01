@@ -147,17 +147,17 @@ BadApple <- function(Replications, binary=TRUE, NumBurs=10, MaxIter=10,
     if (debug) cat("DEBUGGING ACTIVE\n")
 
 # somewhere here I have to _at least_ add a tag for whether bureaucrat is a saboteur or not
-  ExecSummary <- array(data=rep(Replications*17,0), dim=c(Replications, 17))
+  ExecSummary <- array(data=rep(Replications*18,0), dim=c(Replications, 18))
   if (supervision == "Relative")
     colnames(ExecSummary) <- c("SupUtilMean", "SupUtilSD", "PrefMean", "PrefSD", "RespMean", "RespSD",
                          "SupObsMean", "SupObsSD", "BurObsMean", "BurObsSD",
                          "Tolerance", "Punishment", "Connectivity", "ActualResponseMean", "ActualResponseSD",
-                         "BurUtilMean", "BurUtilSD")
+                         "BurUtilMean", "BurUtilSD","NumSaboteurs")
   else if (supervision == "Fixed")
     colnames(ExecSummary) <- c("SupUtilMean", "SupUtilSD", "PrefMean", "PrefSD", "RespMean", "RespSD",
                                "SupObsMean", "SupObsSD", "BurObsMean", "BurObsSD",
                                "Std", "Punishment", "Connectivity", "ActualResponseMean", "ActualResponseSD",
-                               "BurUtilMean", "BurUtilSD")
+                               "BurUtilMean", "BurUtilSD","NumSaboteurs")
 
   # Store the results overall in Performance                                ## Do I want Performance Record to be global?
   Performance <- array(NA, dim=c(Replications*MaxIter,2+NumBurs))
@@ -416,7 +416,7 @@ BadApple <- function(Replications, binary=TRUE, NumBurs=10, MaxIter=10,
       ExecSummary[repl_ct, 11:15] <- c(Tolerance, Punishment, Connectivity, mean(Response), sd(Response))
     else if (supervision == "Fixed")
       ExecSummary[repl_ct, 11:15] <- c(Std, Punishment, Connectivity, mean(Response), sd(Response))
-    ExecSummary[repl_ct, 16:17] <- c(mean(BurUtil[MaxIter,]), sd(BurUtil[MaxIter,]))
+    ExecSummary[repl_ct, 16:18] <- c(mean(BurUtil[MaxIter,]), sd(BurUtil[MaxIter,]), NumSaboteurs)
 
     if (Init_SupObsParms[1] == -99) SupObsParms <- c(-99,-99)
     if (Init_Tolerance == -99) Tolerance <- -99
