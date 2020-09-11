@@ -13,6 +13,7 @@ require("igraph")
 #   - Returns:
 #     $Version: "2.0a1"
 #     $NumBurs: as set, or default=10
+#     $NumSaboteurs: as set [required]
 #     $MaxIter: as set, or default=10
 #     $binary: as set, or default=TRUE. Produces an error for "FALSE" since connectivity
 #       measures here use the igraph:: functions, and really, it only makes sense to look at the
@@ -107,7 +108,7 @@ BadApple <- function(Replications, binary=TRUE, NumBurs=10, MaxIter=10,
     cat("Running Imit Sim over", Replications, "Replications\n")
     cat(" with NumBurs", NumBurs, "\n")
     cat(" with NumSaboteurs", NumSaboteurs, "\n")
-    if (NumSaboteurs >= NumBurs) error("NumSaboteurs must be less than NumBurs")
+    if (NumSaboteurs >= NumBurs) return("NumSaboteurs must be less than NumBurs")
     cat(" over MaxIter", MaxIter, "\n")
 
     cat("Other parameters:\n")
@@ -431,6 +432,7 @@ BadApple <- function(Replications, binary=TRUE, NumBurs=10, MaxIter=10,
   if (tallperformance)
     BigList <- list("Version" = "2.0a1",
                     "NumBurs" = NumBurs,
+                    "NumSaboteurs" = NumSaboteurs,
                     "MaxIter" = MaxIter,
                     "Replications" = Replications,
                     "binary" = binary,
@@ -446,6 +448,7 @@ BadApple <- function(Replications, binary=TRUE, NumBurs=10, MaxIter=10,
   if (!tallperformance)
     BigList <- list("Version" = "2.0a1",
                     "NumBurs" = NumBurs,
+                    "NumSaboteurs" = NumSaboteurs,
                     "MaxIter" = MaxIter,
                     "Replications" = Replications,
                     "binary" = binary,
