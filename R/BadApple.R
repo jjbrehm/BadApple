@@ -4,6 +4,8 @@
 # - Thought was also that APL is in many ways a precursor to R, so
 #   that the migration should not be hard
 
+# R, github, are software developed by tech-dorks with minimal english language skills
+
 require("igraph")
 #require("xts") # only for the first()/last() functions for the old_analyze take and drop
 
