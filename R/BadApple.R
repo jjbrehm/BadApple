@@ -228,7 +228,7 @@ BadApple <- function(Replications, binary=TRUE, NumBurs=10, MaxIter=10,
 
     # supervisor observability (see and be seen, here) dist'd unif(0,1)   ## I say unif in the code, but seems norm??
     SupObsty <- rnorm(NumBurs, mean=SupObsParms[1], sd=SupObsParms[2])
-    SabSupObsty <- rnorm(NumSaboteurs, mean=SabSupParms[1], sd=SabSupObstParms[2])
+    SabSupObsty <- rnorm(NumSaboteurs, mean=SabSupObsParms[1], sd=SabSupObsParms[2])
     # replace the observability of the saboteurs
     SupObsty[1:NumSaboteurs] <- SabSupObsty[1:NumSaboteurs]
     # truncate
