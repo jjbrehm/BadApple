@@ -228,6 +228,10 @@ BadApple <- function(Replications, binary=TRUE, NumBurs=10, MaxIter=10,
 
     # supervisor observability (see and be seen, here) dist'd unif(0,1)   ## I say unif in the code, but seems norm??
     SupObsty <- rnorm(NumBurs, mean=SupObsParms[1], sd=SupObsParms[2])
+    SabSupObsty <- rnorm(NumSaboteurs, mean=SabSupParms[1], sd=SabSupObstParms[2])
+    # replace the observability of the saboteurs
+    SupObsty[1:NumSaboteurs] <- SabSupObsty[1:NumSaboteurs]
+    # truncate
     SupObsty[SupObsty < 0] <- 0
     SupObsty[SupObsty > 1] <- 1
 
@@ -245,9 +249,13 @@ BadApple <- function(Replications, binary=TRUE, NumBurs=10, MaxIter=10,
     if (supervision == "Relative") Tolerance <- runif(1, min = -2, max=2)
     else if (supervision == "Fixed") Std <- runif(1, min=-1, max=1)
 
-    Punishment <- runif(1,min=0, max=2)
+    if (Punishment != -99) Punishment <- runif(1,min=0, max=2)
 
-    #DO handle punishment of saboteurs here
+    #DO handle punishment of saboteurs here: note that _default_ is to let SabPunishment *also*
+    # be a random uniform number (which means that half the time, the Saboteurs will be punished
+    # *less* than the others)
+
+    if (SabPunishment != -99) SabPunishment <- runif(1,min=0, max=2)
 
     if (binary) Connectivity <- analyze(Obsty)                                         ## wouldn't seem that obsty has to be global
      else Connectivity <- old_analyze(Obsty)
@@ -288,7 +296,6 @@ BadApple <- function(Replications, binary=TRUE, NumBurs=10, MaxIter=10,
     BurUtil <- array(0, dim=c(MaxIter, NumBurs))                 ## Do I want this to be global?
     SupUtil <- array(0, dim=c(MaxIter, 2))
 
-    #getpolicy(mnpop)                                                       ## divergence!!! scope prevents this from working
     Prefs <- rnorm(NumBurs, mean=PrefParms[1], sd=PrefParms[2])  ## whoa! was I allowing Prefs outside of -1,1???
     if (posprefs == TRUE) {
       Prefs[Prefs < 0] = 0
