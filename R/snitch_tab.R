@@ -26,3 +26,5 @@ snitch_tab <- function(simobj) {
 
   rtab
 }
+
+# I really do hate github

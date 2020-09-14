@@ -27,3 +27,5 @@ snitch_plots <- function(simobj) {
   gridExtra::grid.arrange(s.h, s.d, ncol=2)
 
 }
+
+# I hate github

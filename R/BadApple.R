@@ -83,7 +83,6 @@ require("igraph")
 #' @param SabResponseParms vector(2)
 #' @param SabPrefParms vector(2)
 #' @param SabBurObsParms vector(2)
-#' @param SabSupObsParms vector(2)
 #' @param tallperformance logical
 #' @param quiet logical
 #' @param debug logical
@@ -185,6 +184,7 @@ BadApple <- function(Replications, binary=TRUE, NumBurs=10, MaxIter=10,
 
     # draw SupObsParms randomly for policy 1a/1b/2a/2b
     if (SupObsParms[1] == -99) SupObsParms <- runif(2)
+    if (SabSupObsParms[1] == -99) SabSupObsParms <- runif(2)
 
     # uncomment for policy 1c/2c
     if (BurObsParms[1] == -99) BurObsParms <- runif(2)
