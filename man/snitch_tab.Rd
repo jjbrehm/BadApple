@@ -10,7 +10,7 @@ snitch_tab(simobj)
 \item{simobj}{}
 }
 \value{
-\item{rtable}{Returns the results of calc_saboteurs_vs_others in a knitr::kable()-ready tabular form.}
+
 }
 \description{
 snitch_tab

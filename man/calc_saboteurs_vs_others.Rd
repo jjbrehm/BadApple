@@ -10,7 +10,7 @@ calc_saboteurs_vs_others(simobj)
 \item{simobj}{}
 }
 \value{
-\item{rmatrix}{Returns a matrix of the performance of the saboteurs, the performance of the others, the difference, the z-score and probability of the difference, the percent of converters (saboteurs who adopt behavior of othes), and the percent of contagion (others who adopt behavior of saboteurs).}
+
 }
 \description{
 calc_saboteurs_vs_others

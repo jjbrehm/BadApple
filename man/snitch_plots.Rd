@@ -10,7 +10,7 @@ snitch_plots(simobj)
 \item{simobj}{}
 }
 \value{
-\item{plotlist}{A list with two ggplot() objects: a histogram of the saboteurs vs the others, and a kernel density plot of the saboteurs vs the others.}
+
 }
 \description{
 snitch_plots
