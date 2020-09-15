@@ -24,7 +24,7 @@ snitch_plots <- function(simobj) {
     theme_minimal() +
     ggtitle("Density of Saboteurs vs. the Others")
 
-  gridExtra::grid.arrange(s.h, s.d, ncol=2)
+  list(s.h, s.d)
 
 }
 

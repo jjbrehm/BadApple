@@ -61,8 +61,8 @@ calc_saboteurs_vs_others <- function(simobj) {
   last_others[last_others == first_others] <- -98
 
   # I wonder if I have the 1 and 2 below correct?
-  is_convert <- apply(last_sab, 2, is.element, first_others)      #was 1
-  is_contagion <- apply(last_others, 2, is.element, first_sab)    #was 2
+  is_convert <- apply(last_sab, 1, is.element, first_others)      #was 1
+  is_contagion <- apply(last_others, 1, is.element, first_sab)    #was 2
 
   #n_contagion <- apply(is_contagion, 1, sum)
 
