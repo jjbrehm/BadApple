@@ -1,4 +1,4 @@
-# R Script to implement the Imitation model from WSS
+# R Script to adapt the Imitation model from WSS to a BadApple problem
 # - Aim is to use base R functions and avoid APL/C/Java code that
 #   was probably inaccessible to many people
 # - Thought was also that APL is in many ways a precursor to R, so
@@ -106,7 +106,7 @@ BadApple <- function(Replications, binary=TRUE, NumBurs=10, MaxIter=10,
   # Version 1a calls policy 1a (relative punishment) based on punrate
 
   if (!quiet) {
-    cat("Running Imit Sim over", Replications, "Replications\n")
+    cat("Running BadApple over", Replications, "Replications\n")
     cat(" with NumBurs", NumBurs, "\n")
     cat(" with NumSaboteurs", NumSaboteurs, "\n")
     if (NumSaboteurs >= NumBurs) return("NumSaboteurs must be less than NumBurs")
