@@ -122,29 +122,29 @@ BadApple <- function(Replications, binary=TRUE, NumBurs=10, MaxIter=10,
       else cat(" without TallPerformance record\n")
   }
 
-    if (SupObsParms[1] != -99) cat("SupObsParms", SupObsParms, "\n")
+    if (SupObsParms[1] != -99 & !quiet) cat("SupObsParms", SupObsParms, "\n")
       Init_SupObsParms <- SupObsParms
-    if (SabSupObsParms[1] != -99) cat("SabSupObsParms", SabSupObsParms, "\n")
+    if (SabSupObsParms[1] != -99 & !quiet) cat("SabSupObsParms", SabSupObsParms, "\n")
       Init_SabSupObsParms <- SabSupObsParms
-    if (Tolerance != -99) cat("Tolerance", Tolerance, "\n")
+    if (Tolerance != -99 & !quiet) cat("Tolerance", Tolerance, "\n")
       Init_Tolerance <- Tolerance
-    if (Punishment != -99) cat("Punishment", Punishment, "\n")
+    if (Punishment != -99 & !quiet) cat("Punishment", Punishment, "\n")
       Init_Punishment <- Punishment
-    if (SabPunishment != -99) cat("SabPunishment", SabPunishment, "\n")
+    if (SabPunishment != -99 & !quiet) cat("SabPunishment", SabPunishment, "\n")
       Init_SabPunishment <- SabPunishment
-    if (Std != -99) cat("Std", Std, "\n")
+    if (Std != -99 & !quiet) cat("Std", Std, "\n")
       Init_Std <- Std
-    if (ResponseParms[1] != -99) cat("ResponseParms", ResponseParms, "\n")
+    if (ResponseParms[1] != -99 & !quiet) cat("ResponseParms", ResponseParms, "\n")
       Init_ResponseParms <- ResponseParms
-    if (SabResponseParms[1] != -99) cat("SabResponseParms", SabResponseParms, "\n")
+    if (SabResponseParms[1] != -99 & !quiet) cat("SabResponseParms", SabResponseParms, "\n")
       Init_SabResponseParms <- SabResponseParms
-    if (PrefParms[1] != -99) cat("PrefParms", PrefParms, "\n")
+    if (PrefParms[1] != -99 & !quiet) cat("PrefParms", PrefParms, "\n")
       Init_PrefParms <- PrefParms
-    if (SabPrefParms[1] != -99) cat("SabPrefParms", SabPrefParms, "\n")
+    if (SabPrefParms[1] != -99 & !quiet) cat("SabPrefParms", SabPrefParms, "\n")
       Init_SabPrefParms <- SabPrefParms
-    if (BurObsParms[1] != -99) cat("BurObsParms", BurObsParms, "\n")
+    if (BurObsParms[1] != -99 & !quiet) cat("BurObsParms", BurObsParms, "\n")
       Init_BurObsParms <- BurObsParms
-    if (SabBurObsParms[1] != -99) cat("SabBurObsParms", SabBurObsParms, "\n")
+    if (SabBurObsParms[1] != -99 & !quiet) cat("SabBurObsParms", SabBurObsParms, "\n")
       Init_SabBurObsParms <- SabBurObsParms
     if (debug) cat("DEBUGGING ACTIVE\n")
 
