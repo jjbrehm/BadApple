@@ -5,6 +5,9 @@
 #   that the migration should not be hard
 
 # R, github, are software developed by tech-dorks with minimal english language skills
+# fucking github trolls
+# I really really really hate github.
+
 
 require("igraph")
 #require("xts") # only for the first()/last() functions for the old_analyze take and drop
