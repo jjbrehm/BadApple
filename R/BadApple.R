@@ -254,13 +254,13 @@ BadApple <- function(Replications, binary=TRUE, NumBurs=10, MaxIter=10,
     if (supervision == "Relative") Tolerance <- runif(1, min = -2, max=2)
     else if (supervision == "Fixed") Std <- runif(1, min=-1, max=1)
 
-    if (Punishment != -99) Punishment <- runif(1,min=0, max=2)
+    if (Punishment == -99) Punishment <- runif(1,min=0, max=2)
 
     #DO handle punishment of saboteurs here: note that _default_ is to let SabPunishment *also*
     # be a random uniform number (which means that half the time, the Saboteurs will be punished
     # *less* than the others)
 
-    if (SabPunishment != -99) SabPunishment <- runif(1,min=0, max=2)
+    if (SabPunishment == -99) SabPunishment <- runif(1,min=0, max=2)
 
     if (binary) Connectivity <- analyze(Obsty)                                         ## wouldn't seem that obsty has to be global
      else Connectivity <- old_analyze(Obsty)
@@ -352,7 +352,9 @@ BadApple <- function(Replications, binary=TRUE, NumBurs=10, MaxIter=10,
         # supervisor enforces against those she sees defecting
         SupUtil[iter,] <- c(mean(Do), sd(Do))
 
+        # setting the Seen to be 1 for Saboteurs w/o random add
         Seen <- trunc(SupObsty+runif(1))
+        Seen[1:NumSaboteurs] <- trunc(SabSupObsty+.5)
 
         if (debug) {
           cat("Seen:\n")
@@ -363,16 +365,21 @@ BadApple <- function(Replications, binary=TRUE, NumBurs=10, MaxIter=10,
 
         # Relative tolerance => deviants are those whose behavior is below "Mean - Tolerance*SD"
         # Fixed supervision => deviants are less than Std units (on a -1,1 scale)
-        if (supervision == "Relative") deviants <- Do < SupUtil[iter,1] - (Tolerance*SupUtil[iter,2])
+        if (debug) {
+          cat("Do < Std", Do<Std, "\n")
+        }
+        if (supervision == "Relative") deviants <- Do < (SupUtil[iter,1] - (Tolerance*SupUtil[iter,2]))
         else if (supervision == "Fixed") deviants <- Do < Std
-        if (debug){
+        if (debug) {
           cat("deviants:\n")
           print(deviants)
         }
 
-        # still have to be deviant even if omniscient
-        if (!omniscient) seendeviants <- deviants * Seen
-        else seendeviants <- deviants
+        # ERROR???still have to be deviant even if omniscient
+        # FIX? use "logical()" above to test for deviants
+        if (!omniscient) seendeviants <- (deviants * as.integer(Seen))>0
+        else seendeviants <- deviants>0
+
         if (debug) {
           cat("seendeviants:\n")
           print(seendeviants)
@@ -389,6 +396,7 @@ BadApple <- function(Replications, binary=TRUE, NumBurs=10, MaxIter=10,
           BurUtil[iter,WhoCaught] <- BurUtil[iter,WhoCaught] - Punishment
         }
         if (debug) {
+          cat("--->>>\nBurUtil[", iter, ",", WhoCaught, "\nPunishment:", Punishment, "\n")
           cat("---\nBurUtil (after supervision)\n")
           print(BurUtil[iter,])
         }
@@ -442,7 +450,7 @@ BadApple <- function(Replications, binary=TRUE, NumBurs=10, MaxIter=10,
   }
 
   if (tallperformance)
-    BigList <- list("Version" = "2.0a1",
+    BigList <- list("Version" = "2.0a2",
                     "NumBurs" = NumBurs,
                     "NumSaboteurs" = NumSaboteurs,
                     "MaxIter" = MaxIter,
@@ -458,7 +466,7 @@ BadApple <- function(Replications, binary=TRUE, NumBurs=10, MaxIter=10,
                     "SeenRecord" = SeenRecord,
                     "Saboteurs" = Saboteurs)
   if (!tallperformance)
-    BigList <- list("Version" = "2.0a1",
+    BigList <- list("Version" = "2.0a2",
                     "NumBurs" = NumBurs,
                     "NumSaboteurs" = NumSaboteurs,
                     "MaxIter" = MaxIter,

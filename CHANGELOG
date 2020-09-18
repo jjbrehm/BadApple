@@ -63,11 +63,11 @@ CHANGELOG
 #    x Define Saboteur parameters (NumSaboteurs, SabBurObsParms, SabPrefParms, SabRespParms,
 #       SabObsParms, SabPunishment)
 #    x Define and use SabObsty, SabPrefs, SabResponses
-#    - Running initial tests on the model (NumSaboteurs = 1, 3, 5; same [draw Prefs and Responses a second time from
+#    x Running initial tests on the model (NumSaboteurs = 1, 3, 5; same [draw Prefs and Responses a second time from
+#      same density]; bad_prefs (NumSaboteurs = 1, 3, 5); bad_responses (NumSaboterus = 1, 3, 5); both bad)
+#    x Running initial tests on the model (NumSaboteurs = 1, 3, 5; same [draw Prefs and Responses a second time from
 #      same density]; bad_prefs (NumSaboteurs = 1, 3, 5); bad_responses (NumSaboterus = 1, 3, 5); both bad)
 #    - Define and use SabSupObsty
-#    - Running initial tests on the model (NumSaboteurs = 1, 3, 5; same [draw Prefs and Responses a second time from
-#      same density]; bad_prefs (NumSaboteurs = 1, 3, 5); bad_responses (NumSaboterus = 1, 3, 5); both bad)
 #    - Define and use SabPunishment
 #    - Running initial tests on the model (NumSaboteurs = 1, 3, 5; same [draw Prefs and Responses a second time from
 #      same density]; bad_prefs (NumSaboteurs = 1, 3, 5); bad_responses (NumSaboterus = 1, 3, 5); both bad)

@@ -18,7 +18,7 @@ snitch_plots <- function(simobj) {
     theme_minimal() +
     ggtitle("Histogram of Saboteurs vs. the Others")
 
-  s.d <- ggplot(foo, aes(x=Response, fill=Who)) +                     #, size=1) +
+  s.d <- ggplot(foo, aes(x=Response, fill=Who, color="#000000")) +                     #, size=1) +
     geom_density(alpha=.5) +
     scale_fill_manual(values=c("gray70", "palegreen4")) +
     theme_minimal() +

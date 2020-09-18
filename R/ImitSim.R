@@ -285,16 +285,18 @@ ImitSim <- function(Replications, binary=TRUE, NumBurs=10, MaxIter=10,
 
         # Relative tolerance => deviants are those whose behavior is below "Mean - Tolerance*SD"
         # Fixed supervision => deviants are less than Std units (on a -1,1 scale)
-        if (supervision == "Relative") deviants <- Do < SupUtil[iter,1] - (Tolerance*SupUtil[iter,2])
+        if (supervision == "Relative") deviants <- Do < (SupUtil[iter,1] - (Tolerance*SupUtil[iter,2]))
         else if (supervision == "Fixed") deviants <- Do < Std
-        if (debug){
+        if (debug) {
           cat("deviants:\n")
           print(deviants)
         }
 
-        # still have to be deviant even if omniscient
-        if (!omniscient) seendeviants <- deviants * Seen
-        else seendeviants <- deviants
+        # ERROR???still have to be deviant even if omniscient
+        # FIX? use "logical()" above to test for deviants
+        if (!omniscient) seendeviants <- (deviants * as.integer(Seen))>0
+        else seendeviants <- deviants>0
+
         if (debug) {
           cat("seendeviants:\n")
           print(seendeviants)
