@@ -5,6 +5,17 @@
 
 # I just don't know why this isn't up. grumble
 
+#' effs_beta
+#'
+#' @param betaobj
+#' @param brange
+#' @param base
+#' @param test
+#'
+#' @return
+#' @export
+#'
+#' @examples
 effs_beta <- function(betaobj, brange=c(0,1), base, test) {
   baseline <- mean_beta(betaobj, base, brange=brange)
 
