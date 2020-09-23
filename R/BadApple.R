@@ -311,13 +311,15 @@ BadApple <- function(Replications, binary=TRUE, NumBurs=10, MaxIter=10,
     SabPrefs <- rnorm(NumSaboteurs, mean=SabPrefParms[1], sd=SabPrefParms[2])
 
     Prefs[1:NumSaboteurs] <- SabPrefs
+    Prefs[Prefs < -1] <- -1
+    Prefs[Prefs > 1] = 1
 
 
     if (debug) {
       cat("\n============\nReplication:", repl_ct, "\n============\n")
       cat("Obsty:\n")
       print(Obsty)
-      cat("Prefs:", Prefs,"\n")
+      cat("\nPrefs:", Prefs,"\n")
       cat("Response:", Response, "\n")
       cat("Prefs x Response:", Prefs*Response, "\n----------------\n")
       }
@@ -343,6 +345,7 @@ BadApple <- function(Replications, binary=TRUE, NumBurs=10, MaxIter=10,
 
         # outcome equals desires times do
         if (debug) {
+          cat("ITERATION[",iter,"]\n")
           cat("Prefs:\n")
           print(Prefs)
           cat("Do:\n")
@@ -402,7 +405,7 @@ BadApple <- function(Replications, binary=TRUE, NumBurs=10, MaxIter=10,
           BurUtil[iter,WhoCaught] <- BurUtil[iter,WhoCaught] - Punishment
         }
         if (debug) {
-          cat("--->>>\nBurUtil[", iter, ",", WhoCaught, "\nPunishment:", Punishment, "\n")
+          cat("--->>>\nBurUtil[", iter, "]\nWhoCaught:", WhoCaught, "\nPunishment:", Punishment, "\n")
           cat("---\nBurUtil (after supervision)\n")
           print(BurUtil[iter,])
         }
