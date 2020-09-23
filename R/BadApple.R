@@ -152,16 +152,16 @@ BadApple <- function(Replications, binary=TRUE, NumBurs=10, MaxIter=10,
     if (debug) cat("DEBUGGING ACTIVE\n")
 
 # somewhere here I have to _at least_ add a tag for whether bureaucrat is a saboteur or not
-  ExecSummary <- array(data=rep(Replications*18,0), dim=c(Replications, 18))
+  ExecSummary <- array(data=rep(Replications*19,0), dim=c(Replications, 19))
   if (supervision == "Relative")
     colnames(ExecSummary) <- c("SupUtilMean", "SupUtilSD", "PrefMean", "PrefSD", "RespMean", "RespSD",
                          "SupObsMean", "SupObsSD", "BurObsMean", "BurObsSD",
-                         "Tolerance", "Punishment", "Connectivity", "ActualResponseMean", "ActualResponseSD",
+                         "Tolerance", "Punishment", "SabPunishment", "Connectivity", "ActualResponseMean", "ActualResponseSD",
                          "BurUtilMean", "BurUtilSD","NumSaboteurs")
   else if (supervision == "Fixed")
     colnames(ExecSummary) <- c("SupUtilMean", "SupUtilSD", "PrefMean", "PrefSD", "RespMean", "RespSD",
                                "SupObsMean", "SupObsSD", "BurObsMean", "BurObsSD",
-                               "Std", "Punishment", "Connectivity", "ActualResponseMean", "ActualResponseSD",
+                               "Std", "Punishment", "SabPunishment", "Connectivity", "ActualResponseMean", "ActualResponseSD",
                                "BurUtilMean", "BurUtilSD","NumSaboteurs")
 
   # Store the results overall in Performance                                ## Do I want Performance Record to be global?
@@ -402,7 +402,11 @@ BadApple <- function(Replications, binary=TRUE, NumBurs=10, MaxIter=10,
 
         if(length(WhoCaught)!=0) {
           Catch <- Catch + 1
-          BurUtil[iter,WhoCaught] <- BurUtil[iter,WhoCaught] - Punishment
+          before <- BurUtil[iter, WhoCaught]
+          SabCaught <- WhoCaught[WhoCaught <= NumSaboteurs]
+          OthersCaught <- WhoCaught[WhoCaught > NumSaboteurs]
+          if (length(SabCaught) != 0) BurUtil[iter,SabCaught] <- BurUtil[iter, SabCaught] - SabPunishment
+          if (length(OthersCaught) != 0) BurUtil[iter,OthersCaught] <- BurUtil[iter, OthersCaught] - Punishment
         }
         if (debug) {
           cat("--->>>\nBurUtil[", iter, "]\nWhoCaught:", WhoCaught, "\nPunishment:", Punishment, "\n")
