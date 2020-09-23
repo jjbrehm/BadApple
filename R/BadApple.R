@@ -319,7 +319,7 @@ BadApple <- function(Replications, binary=TRUE, NumBurs=10, MaxIter=10,
       print(Obsty)
       cat("Prefs:", Prefs,"\n")
       cat("Response:", Response, "\n")
-      cat("Prefs x Response:", Prefs*Respobse, "\n----------------\n")
+      cat("Prefs x Response:", Prefs*Response, "\n----------------\n")
       }
 
     # play: go from here
