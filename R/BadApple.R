@@ -294,6 +294,7 @@ BadApple <- function(Replications, binary=TRUE, NumBurs=10, MaxIter=10,
 
     Response[1:NumSaboteurs] <- SabResponse
 
+
     # change call below to switch policy variation
 
     # set counters to zero, open result matrices
@@ -306,14 +307,19 @@ BadApple <- function(Replications, binary=TRUE, NumBurs=10, MaxIter=10,
       Prefs[Prefs < 0] = 0
       Prefs[Prefs > 1] = 1
     }
+
     SabPrefs <- rnorm(NumSaboteurs, mean=SabPrefParms[1], sd=SabPrefParms[2])
 
     Prefs[1:NumSaboteurs] <- SabPrefs
+
 
     if (debug) {
       cat("\n============\nReplication:", repl_ct, "\n============\n")
       cat("Obsty:\n")
       print(Obsty)
+      cat("Prefs:", Prefs,"\n")
+      cat("Response:", Response, "\n")
+      cat("Prefs x Response:", Prefs*Respobse, "\n----------------\n")
       }
 
     # play: go from here
@@ -481,11 +487,6 @@ BadApple <- function(Replications, binary=TRUE, NumBurs=10, MaxIter=10,
                     "SeenRecord" = SeenRecord,
                     "Saboteurs" = Saboteurs)
   BigList
-}
-
-# analyze is busted
-analyze <- function(o) {
-  igraph::vertex_connectivity(igraph::graph_from_adjacency_matrix(o))
 }
 
 old_analyze <- function(o) {
