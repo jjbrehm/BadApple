@@ -7,11 +7,10 @@
 snitch_tab(simobj)
 }
 \arguments{
-\item{simobj}{}
+\item{simobj}{A simulation object from BadApple(). Produces wrong values for ImitSim() because there are no designated saboteurs. Assumes NumSaboteurs=3.}
 }
 \value{
-
 }
 \description{
-snitch_tab
+Produces a matrix with the differences between saboteurs and others by calling calc_saboteurs_vs_others(). Requires tidyverse.
 }
