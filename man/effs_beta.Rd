@@ -18,4 +18,4 @@ effs_beta(betaobj, brange = c(0, 1), base, test)
 \description{
 effs_beta calculates the mean shift of each variable as the variable moves from base to test conditions
 }
-}
+
