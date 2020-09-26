@@ -7,11 +7,13 @@
 mean_beta(betaobj, testvals, brange = c(0, 1))
 }
 \arguments{
-\item{brange}{}
+\item{betaobj}{A simobj from the ImitSim() or BadApple() functions}
+\item{testvals}{A vector length K (including constant) of values to compute a mean estimate.}
+\item{brange}{A vector length 2 (min, max) specifying the range of the beta density}
 }
 \value{
-
+\item{}{A K-length vector of the mean at the testvals}
 }
 \description{
-mean_beta
+mean_beta is used by effs_beta to compute first differences (changes in mean)
 }
