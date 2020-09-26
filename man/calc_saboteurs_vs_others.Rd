@@ -23,6 +23,4 @@ calc_saboteurs_vs_others(simobj)
 }
 \description{
 calc_saboteurs_vs_others returns a matrix with all the above values, as well as the object with all the values.
-
-github is again acting like an ass.
 }
