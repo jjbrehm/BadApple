@@ -11,13 +11,13 @@ Builds off of the R version of ImitSim, with the eventual intention to allow for
 }
 
 \usage{
-BadApple(replications, LowNumBur, NumBur, MaxIter, supervision, omniscient, posprefs, binary, Tolerance, Std,
+BadApple(replications, NumSaboteurs, NumBur, MaxIter, supervision, omniscient, posprefs, binary, Tolerance, Std,
 Punishment, SupObsParms, PrefParms, RespParms, BurObsParms)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
   \item{replications}{Number (integer) of replications of each run.}
-  \item{LowNumBur}{Number (integer) of poor performer (LowNumBur < NumBur)}
+  \item{NumSaboteurs}{Number (integer) of poor performer (NumSaboteurs < NumBur), REQUIRED.}
   \item{NumBur}{Number (integer) of Bureaucrats.}
   \item{MaxIter}{Number (integer) of iterations for each replication to run.}
   \item{supervision}{"Relative" (default) for supervisor to identify deviants based on low-end deviations from responses by other bureaucrats, "Fixed" for the supervisor to identify deviants based on a floor of minimal performance.}
@@ -31,12 +31,16 @@ Punishment, SupObsParms, PrefParms, RespParms, BurObsParms)
   \item{Std}{Number (float) in range (-1,1) for supervisor to regard as the floor for performance. Only makes sense if
     the supervision is "Fixed".}
   \item{Punishment}{Number (float) subtracted from each deviant bureaucrat.}
-  \item{SupObsParms}{Vector (mean,sd) for the observability of the supervisor. Can be redunddant with omniscient, which sets all bureaucrats as visiible (i.e., equivalent to SupObsPamrs=c(1,0)}
+  \item{SupObsParms}{Vector (mean,sd) for the observability of the bureaucrats by the supervisor. Can be redunddant with omniscient, which sets all bureaucrats as visiible (i.e., equivalent to SupObsPamrs=c(1,0)}
+  \item{SabSupObsParms}{Vector (mean, sd) for the observability of the saboteurs by the supervisor.}
   \item{PrefParms}{Vector (mean,sd) for the preferences of the bureaucrat.}
+  \item{SabPrefParms}{Vector (mean, sd) for the preferences of the saboteurs}
   \item{RespParms}{Vector (mean,sd) for the responses of the bureaucrats.}
-  \item{BurobsParms}{Vector (mean,sd) for the observability of each bureaucrat to one another.}
-  \item{debug}{If TRUE, prints debugging information.}
-  \item{quiet}{If TRUE, prints no startup information (but will print debugging information, if requested).}
+  \item{SabRespParms}{Vector (mean,sd) for the responses of the saboteurs.}
+  \item{BurObsParms}{Vector (mean,sd) for the observability of each bureaucrat to one another.}
+  \item{SabBurObsParms}{Vector (mean,sd) for the observability of the saboteurs (of everyone. Used to set observability of the saboteurs of the group and create isolation of the netwwork.)}
+  \item{debug}{If TRUE, prints debugging information. Default is FALSE.}
+  \item{quiet}{If TRUE, prints no startup information (but will print debugging information, if requested). Default is FALSE.}
 %%     ~~Describe \code{x} here~~
 }
 \details{
@@ -52,6 +56,7 @@ This might be the place for text about the way the function will work.
 \item{ExecSummary }{Returns a (tidy-ready) dataframe that contains:  \verb{Replication, Iteration, SupUtilMean, SupUtilSD, PrefMean, PrefSD, ResponseMean, ResponseSD, SupObsMean, SupObsSD, BurObsMean, BurObsSD, Tolerance (or Std),} \verb{Punishment, Connectivity, FinalResponseMean, FinalResponseSD, BurUtilMean, BurUtilSD}}
 \item{version }{1.1b3}
 \item{NumBurs }{Number of bureaucrats (default=10)}
+\item{NumSaboteurs}{Number of saboteurs. No default, and required.}
 \item{MaxIter }{Number of iterations per replication (default=10)}
 \item{binary }{Whether the connectivity of the observability is computed using a binary adjacency matrix.}
 \item{supervision }{The mode of supervision ("Relative", "Fixed")}
@@ -71,7 +76,7 @@ John Brehm
 }
 \note{
 %%  ~~further notes~~
-Makes use of the igraph library. You should have it installed.
+Makes use of the igraph library. You might need to have it installed.
 }
 
 %% ~Make other sections like Warning with \section{Warning }{....} ~
@@ -80,8 +85,6 @@ Makes use of the igraph library. You should have it installed.
 %% ~~objects to See Also as \code{\link{help}}, ~~~
 }
 \examples{
-# To replicate Table 3.1 with relative supervision, allowing for preferences to be (-1,1)
-wss <- ImitSim(1000)
-hist(wss$ExecSummary$SupUtilMean)
+foo <- BadApple(100, NumSaboteurs=3)
 }
 
