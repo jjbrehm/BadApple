@@ -4,18 +4,17 @@
 \alias{analyze}
 \title{analyze}
 \usage{
-analyze(o)
+analyze(obsty)
 }
 \arguments{
-\item{o}{An n-graph (n-by-n) matrix of 0s and 1s (aka adjacency matrix), as output by the ImitSim and BadApple
-simulations in the object ObstyRecord}
+\item{obsty}{obsty is an n-by-n adjacency matrix, used in ImitSim and BadApple. Doesn't make much sense outside
+of those functions. Calls igraph::vertex_connectivity.}
 }
 \value{
-{}{Returns an integer which is the connectivity of the n-graph.}
+
 }
 \description{
 analyze
 }
 \examples{
-analyze(obsty)
 }
