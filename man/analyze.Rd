@@ -7,10 +7,11 @@
 analyze(o)
 }
 \arguments{
-\item{o}{}
+\item{o}{An n-graph (n-by-n) matrix of 0s and 1s (aka adjacency matrix), as output by the ImitSim and BadApple
+simulations in the object ObstyRecord}
 }
 \value{
-
+{}{Returns an integer which is the connectivity of the n-graph.}
 }
 \description{
 analyze
