@@ -12,16 +12,18 @@ Builds off of the R version of ImitSim, with the eventual intention to allow for
 
 \usage{
 BadApple(replications, NumSaboteurs, NumBur, MaxIter, supervision, omniscient, posprefs, binary, Tolerance, Std,
-Punishment, SupObsParms, PrefParms, RespParms, BurObsParms)
+Punishment, SupObsParms, PrefParms, RespParms, BurObsParms, Memory, Dismissal)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
   \item{replications}{Number (integer) of replications of each run.}
-  \item{NumSaboteurs}{Number (integer) of poor performer (NumSaboteurs < NumBur), REQUIRED.}
+  \item{NumSaboteurs}{Number (integer) of poor performer (NumSaboteurs < NumBur), default=3.}
   \item{NumBur}{Number (integer) of Bureaucrats.}
   \item{MaxIter}{Number (integer) of iterations for each replication to run.}
   \item{supervision}{"Relative" (default) for supervisor to identify deviants based on low-end deviations from responses by other bureaucrats, "Fixed" for the supervisor to identify deviants based on a floor of minimal performance.}
   \item{omniscient}{Logical, FALSE (default) if the supervisor cannot see everyone, TRUE if she can.}
+  \item{Memory}{Logical, FALSE (default) if the bureaucrat does not adapt behavior conditional on improvement from previous iteration}
+  \item{Dismissal}{Number (float) that sets when the bureaucrat is dismissed, and replaced with a new bureaucrat (from what pool?)}
   \item{posprefs}{Logical, FALSE (default) if the preferences of the bureaucrats are not constrained to be positive.
     TRUE if the preferences of the bureacrats must be positive.}
   \item{binary}{TRUE (default) if the observability matrix is converted to binary for the connectivvity calculations.
@@ -62,6 +64,8 @@ This might be the place for text about the way the function will work.
 \item{supervision }{The mode of supervision ("Relative", "Fixed")}
 \item{posprefs }{Are the preferences constrained to be positive?}
 \item{omniscient }{Is the supervisor omniscient? (I.e., can see performance of all her subordinates?)}
+\item{Memory }{Does the bureaucrat retain memory of previous behavior and success? (FALSE (default), TRUE)}
+\item{Dismissal }{What is the threshold of behavior that leads to a dismissal of the bureaucrat?}
 \item{Performance }{Matrix of performance of each bureaucrat in each iteration of every replication, (Replications*MaxIter*Numbers) x (replication, iteration, (vector of responses)))}
 \item{ObstyRecord }{Matrix of observability for each replication, (MaxIter*Numburs) x Numburss)}
 \item{SeenRecord }{Matrix of observability of each bureaucrat by supervisor in each iteration of every replication, (Replication*MaxIter*NumBurs) x (replication, iteration, (vector of seen bureaucrats))}

@@ -72,6 +72,8 @@ require("igraph")
 #' @param supervision character
 #' @param posprefs logical
 #' @param omniscient logical
+#' @param Memory logical
+#' @param Dismissal integer
 #' @param SupObsParms vector(2)
 #' @param Tolerance double
 #' @param Std doublw
@@ -97,10 +99,11 @@ require("igraph")
 #' @examples
 BadApple <- function(Replications, binary=TRUE, NumBurs=10, MaxIter=10,
                       supervision="Relative", posprefs=FALSE, omniscient=FALSE,
+                      Memory=FALSE, Dismissal=-99,
                       tallperformance=FALSE,
                       SupObsParms=c(-99,-99), Tolerance=-99, Std=-99, Punishment=-99,
                       ResponseParms=c(-99,-99), PrefParms=c(-99,-99), BurObsParms=c(-99,-99),
-                      NumSaboteurs=0, SabPunishment=-99,
+                      NumSaboteurs=3, SabPunishment=-99,
                       SabResponseParms=c(-99,-99), SabPrefParms=c(-99,-99), SabBurObsParms=c(-99,-99),
                       SabSupObsParms=c(-99,-99),
                       quiet=FALSE, debug=FALSE) {
@@ -121,6 +124,10 @@ BadApple <- function(Replications, binary=TRUE, NumBurs=10, MaxIter=10,
       else cat(" with positive preferences\n")
     if (!omniscient) cat(" without omniscient supervisor\n")
       else cat(" with omniscient supervisor\n")
+    if (!Memory) cat(" without memory\n")
+      else cat(" with memory\n")
+    if (Dismissal !=99) cat(paste0(" with Dismissal threshold of", Dismissal, "\n"))
+     else cat(" without Dismissal option\n")
     if (tallperformance) cat(" with TallPerformance record (SLOW)\n")
       else cat(" without TallPerformance record\n")
   }
@@ -151,18 +158,17 @@ BadApple <- function(Replications, binary=TRUE, NumBurs=10, MaxIter=10,
       Init_SabBurObsParms <- SabBurObsParms
     if (debug) cat("DEBUGGING ACTIVE\n")
 
-# somewhere here I have to _at least_ add a tag for whether bureaucrat is a saboteur or not
-  ExecSummary <- array(data=rep(Replications*19,0), dim=c(Replications, 19))
+  ExecSummary <- array(data=rep(Replications*20,0), dim=c(Replications, 20))
   if (supervision == "Relative")
     colnames(ExecSummary) <- c("SupUtilMean", "SupUtilSD", "PrefMean", "PrefSD", "RespMean", "RespSD",
                          "SupObsMean", "SupObsSD", "BurObsMean", "BurObsSD",
                          "Tolerance", "Punishment", "SabPunishment", "Connectivity", "ActualResponseMean", "ActualResponseSD",
-                         "BurUtilMean", "BurUtilSD","NumSaboteurs")
+                         "BurUtilMean", "BurUtilSD","NumSaboteurs","Dismissal")
   else if (supervision == "Fixed")
     colnames(ExecSummary) <- c("SupUtilMean", "SupUtilSD", "PrefMean", "PrefSD", "RespMean", "RespSD",
                                "SupObsMean", "SupObsSD", "BurObsMean", "BurObsSD",
                                "Std", "Punishment", "SabPunishment", "Connectivity", "ActualResponseMean", "ActualResponseSD",
-                               "BurUtilMean", "BurUtilSD","NumSaboteurs")
+                               "BurUtilMean", "BurUtilSD","NumSaboteurs","Dismissal")
 
   # Store the results overall in Performance                                ## Do I want Performance Record to be global?
   Performance <- array(NA, dim=c(Replications*MaxIter,2+NumBurs))
@@ -193,15 +199,6 @@ BadApple <- function(Replications, binary=TRUE, NumBurs=10, MaxIter=10,
     if (BurObsParms[1] == -99) BurObsParms <- runif(2)
 
     if (SabBurObsParms[1] == -99) SabBurObsParms <- runif(2)
-
-    ### Probably a bug from the original code: the Obsty matrix was always hyperconnected,
-    ### which really shouldn't be the case.
-    ###
-    ### observability matrix (for bureaucrats) dist'd unif(0,1)
-    ### symmetric (x sees y sees x equally), where each entry is
-    ### probability of seeing
-    ### (obsty has to be global for the connectivity check)
-    ###Obsty <- array(runif(NumBurs^2),dim=c(NumBurs,NumBurs))               ## seems like numburs must be global??
 
     # observability matrix (for bureaucrats) dist'd normal(mean=BurObsParms[1], sd=BurObsBarms[2])
     # but then converted to PROBABILITIES
@@ -299,10 +296,10 @@ BadApple <- function(Replications, binary=TRUE, NumBurs=10, MaxIter=10,
 
     # set counters to zero, open result matrices
     Catch <- 0
-    BurUtil <- array(0, dim=c(MaxIter, NumBurs))                 ## Do I want this to be global?
+    BurUtil <- array(0, dim=c(MaxIter, NumBurs))
     SupUtil <- array(0, dim=c(MaxIter, 2))
 
-    Prefs <- rnorm(NumBurs, mean=PrefParms[1], sd=PrefParms[2])  ## whoa! was I allowing Prefs outside of -1,1???
+    Prefs <- rnorm(NumBurs, mean=PrefParms[1], sd=PrefParms[2])
     if (posprefs == TRUE) {
       Prefs[Prefs < 0] = 0
       Prefs[Prefs > 1] = 1
@@ -322,17 +319,16 @@ BadApple <- function(Replications, binary=TRUE, NumBurs=10, MaxIter=10,
       cat("\nPrefs:", Prefs,"\n")
       cat("Response:", Response, "\n")
       cat("Prefs x Response:", Prefs*Response, "\n----------------\n")
-      }
+    }
 
     # play: go from here
-
-    #DO think about whether saboteurs have to be handled different in the imitation loop (beyond setting
-    #   initial conditions)
 
     for (iter in 1:MaxIter) {
 
         # Do ranges from -1 (complete defection) to 1 (complete compliance)
         Do <- Response
+
+        # if Memory==TRUE, have to set DidWhat and PastUtil (only applies for iter>=2)
 
         # Record Performance
         Performance[(repl_ct-1)*MaxIter+iter, 1:2] <- c(repl_ct, iter)
@@ -384,8 +380,6 @@ BadApple <- function(Replications, binary=TRUE, NumBurs=10, MaxIter=10,
           print(deviants)
         }
 
-        # ERROR???still have to be deviant even if omniscient
-        # FIX? use "logical()" above to test for deviants
         if (!omniscient) seendeviants <- (deviants * as.integer(Seen))>0
         else seendeviants <- deviants>0
 
@@ -415,31 +409,51 @@ BadApple <- function(Replications, binary=TRUE, NumBurs=10, MaxIter=10,
         }
 
         # adapt:
-        BurUtilAll <- array(data=BurUtil[iter,], dim=c(NumBurs, NumBurs))
+        BurUtilArray <- array(data=BurUtil[iter,], dim=c(NumBurs, NumBurs))
         if (debug) {
-          cat("BurUtilAll\n:")
-          print(BurUtilAll)
+          cat("BurUtilArray\n:")
+          print(BurUtilArray)
         }
 
-        BurUtilSeen <- array(NA, dim=c(NumBurs, NumBurs))
+        BurUtilSeenArray <- array(NA, dim=c(NumBurs, NumBurs))
 
-        for (i in 1:NumBurs) BurUtilSeen[i,] <- BurUtilAll[i,] * Obsty[i,]
+        for (i in 1:NumBurs) BurUtilSeenArray[i,] <- BurUtilArray[i,] * Obsty[i,]
 
         if (debug) {
-          cat("\nBurUtilSeen:\n")
-          print(BurUtilSeen)
+          cat("\nBurUtilSeenArray:\n")
+          print(BurUtilSeenArray)
         }
 
         # choose response of the person you saw who did best
 
-        Envy <- apply(BurUtilSeen, 2, which.max)
+        Envy <- apply(BurUtilSeenArray, 2, which.max)
         if (debug) {
           cat("\nEnvy:\n")
           print(Envy)
         }
-        if (debug) cat("\nOld Response:\n", Do)
+        # Have to add in Memory==TRUE here: behavior should be did what if
+        # new util < old util
+        if (debug) cat("\nOld Response:\n", Do, "\n")
+
+        # Memory changes about here...
         Response <- Do[Envy]
+
+        if (Memory & (iter > 1)) {
+          if (debug) cat("PastUtil=",PastUtil,"\nBurUtil=",BurUtil[iter,],"\n")
+          if (debug) cat("Use past response\n", (PastUtil>BurUtil[iter,]),"\n")
+          remembered <- PastUtil>BurUtil[iter,]
+          Response[remembered] <- DidWhat[remembered]
+          }
+
+        if (Memory) {
+          DidWhat <-  Do
+          PastUtil <- BurUtil[iter,]
+        }
+
         if (debug) cat("\nNew Response:\n", Response)
+
+        # If Dismissal != -99, then if Do < Dismissal, need to replace
+        # bureaucrat with a new bureaucrat (and correspondingly change the preference vector and response vector)
 
         # play again, unless this iteration exceeds maxiter
       }
@@ -450,7 +464,7 @@ BadApple <- function(Replications, binary=TRUE, NumBurs=10, MaxIter=10,
       ExecSummary[repl_ct, 11:15] <- c(Tolerance, Punishment, Connectivity, mean(Response), sd(Response))
     else if (supervision == "Fixed")
       ExecSummary[repl_ct, 11:15] <- c(Std, Punishment, Connectivity, mean(Response), sd(Response))
-    ExecSummary[repl_ct, 16:18] <- c(mean(BurUtil[MaxIter,]), sd(BurUtil[MaxIter,]), NumSaboteurs)
+    ExecSummary[repl_ct, 16:19] <- c(mean(BurUtil[MaxIter,]), sd(BurUtil[MaxIter,]), NumSaboteurs, Dismissal)
 
     if (Init_SupObsParms[1] == -99) SupObsParms <- c(-99,-99)
     if (Init_Tolerance == -99) Tolerance <- -99
