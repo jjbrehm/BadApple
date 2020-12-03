@@ -88,6 +88,8 @@ require("igraph")
 #' @param SabResponseParms vector(2)
 #' @param SabPrefParms vector(2)
 #' @param SabBurObsParms vector(2)
+#' @param ReplacementPrefParms vector(2)
+#' @param ReplacementResponseParms vector(2)
 #' @param tallperformance logical
 #' @param quiet logical
 #' @param debug logical
@@ -105,7 +107,7 @@ BadApple <- function(Replications, binary=TRUE, NumBurs=10, MaxIter=10,
                       ResponseParms=c(-99,-99), PrefParms=c(-99,-99), BurObsParms=c(-99,-99),
                       NumSaboteurs=3, SabPunishment=-99,
                       SabResponseParms=c(-99,-99), SabPrefParms=c(-99,-99), SabBurObsParms=c(-99,-99),
-                      SabSupObsParms=c(-99,-99),
+                      SabSupObsParms=c(-99,-99), ReplacementPrefParms=c(-99, -99), ReplacementResponseParms=c(-99,-99),
                       quiet=FALSE, debug=FALSE) {
   # This routine randomly draws the assorted parameters
   # and stores the final mean supoutc as a dependent var
@@ -128,6 +130,8 @@ BadApple <- function(Replications, binary=TRUE, NumBurs=10, MaxIter=10,
       else cat(" with memory\n")
     if (Dismissal !=99) cat(paste0(" with Dismissal threshold of", Dismissal, "\n"))
      else cat(" without Dismissal option\n")
+    if (ReplacementPrefParms[1] != -99) cat(" with Replacement Pref Parms of", ReplacementPrefParms, "\n")
+    if (ReplacementResponseParms[1] != -99) cat(" with Replacement Response Parms of", ReplacementResponseParms, "\n")
     if (tallperformance) cat(" with TallPerformance record (SLOW)\n")
       else cat(" without TallPerformance record\n")
   }

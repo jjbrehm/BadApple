@@ -41,6 +41,8 @@ Punishment, SupObsParms, PrefParms, RespParms, BurObsParms, Memory, Dismissal)
   \item{SabRespParms}{Vector (mean,sd) for the responses of the saboteurs.}
   \item{BurObsParms}{Vector (mean,sd) for the observability of each bureaucrat to one another.}
   \item{SabBurObsParms}{Vector (mean,sd) for the observability of the saboteurs (of everyone. Used to set observability of the saboteurs of the group and create isolation of the netwwork.)}
+  \item{ReplacementPrefParms}{Vector (mean, sd) for the preferences of the replacements.}
+  \item{ReplacementResponseParms}{Vector (mean, sd) for the responses of the replacements.}
   \item{debug}{If TRUE, prints debugging information. Default is FALSE.}
   \item{quiet}{If TRUE, prints no startup information (but will print debugging information, if requested). Default is FALSE.}
 %%     ~~Describe \code{x} here~~
