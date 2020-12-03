@@ -3,7 +3,7 @@
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{
 %%  ~~function to do ... ~~
-Simulation of Imitation by Bureaucrrats who are very poor agents
+Simulation of Imitation by Bureaucrats who are very poor agents
 }
 \description{
 %%  ~~ A concise (1-5 lines) description of what the function does. ~~
