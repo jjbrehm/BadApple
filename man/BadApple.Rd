@@ -12,7 +12,7 @@ Builds off of the R version of ImitSim, with the eventual intention to allow for
 
 \usage{
 BadApple(replications, NumSaboteurs, NumBur, MaxIter, supervision, omniscient, posprefs, binary, Tolerance, Std,
-Punishment, SupObsParms, PrefParms, RespParms, BurObsParms, Memory, Dismissal)
+Punishment, SupObsParms, PrefParms, RespParms, BurObsParms, Memory, Dismissal, ReplacementPrefParms, ReplacementResponseParms)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{

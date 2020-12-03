@@ -136,8 +136,8 @@ BadApple <- function(Replications, binary=TRUE, NumBurs=10, MaxIter=10,
       else cat(" without TallPerformance record\n")
   }
 
-  # setups of parameters
-  {
+  # setups of parameters ----
+
     if (SupObsParms[1] != -99 & !quiet) cat("SupObsParms", SupObsParms, "\n")
       Init_SupObsParms <- SupObsParms
     if (SabSupObsParms[1] != -99 & !quiet) cat("SabSupObsParms", SabSupObsParms, "\n")
@@ -171,7 +171,7 @@ BadApple <- function(Replications, binary=TRUE, NumBurs=10, MaxIter=10,
     if (SabBurObsParms[1] != -99 & !quiet) cat("SabBurObsParms", SabBurObsParms, "\n")
       Init_SabBurObsParms <- SabBurObsParms
     if (debug) cat("DEBUGGING ACTIVE\n")
-  }
+
 
   ExecSummary <- array(data=rep(Replications*20,0), dim=c(Replications, 24))
   if (supervision == "Relative")
@@ -194,8 +194,9 @@ BadApple <- function(Replications, binary=TRUE, NumBurs=10, MaxIter=10,
   ObstyRecord <- array(NA, dim=c(0, 1+NumBurs))
   SeenRecord <- array(NA, dim=c(0, 2+NumBurs))
 
-  # Loop starts here ("go")
+  # Loop starts here ("go") ----
   for (repl_ct in 1:Replications) {
+    # per loop setups ----
     if (ResponseParms[1] == -99) {
       ResponseParms <- runif(2)
       ResponseParms[1] <- -1+2*ResponseParms[1]
@@ -345,7 +346,7 @@ BadApple <- function(Replications, binary=TRUE, NumBurs=10, MaxIter=10,
       cat("Prefs x Response:", Prefs*Response, "\n----------------\n")
     }
 
-    # play: go from here
+    # play: go from here ----
 
     for (iter in 1:MaxIter) {
 
@@ -386,6 +387,7 @@ BadApple <- function(Replications, binary=TRUE, NumBurs=10, MaxIter=10,
         # setting the Seen to be 1 for Saboteurs w/o random add
         Seen <- trunc(SupObsty+runif(1))
         Seen[1:NumSaboteurs] <- trunc(SabSupObsty+.5)
+        Seen[Seen==0] <- NA
 
         if (debug) {
           cat("Seen:\n")
@@ -434,7 +436,7 @@ BadApple <- function(Replications, binary=TRUE, NumBurs=10, MaxIter=10,
           print(BurUtil[iter,])
         }
 
-        # adapt:
+        # adapt: ----
         BurUtilArray <- array(data=BurUtil[iter,], dim=c(NumBurs, NumBurs))
         if (debug) {
           cat("BurUtilArray\n:")
@@ -481,10 +483,15 @@ BadApple <- function(Replications, binary=TRUE, NumBurs=10, MaxIter=10,
 
         # REPLACEMENT
         # If Dismissal != -99, then if Do < Dismissal, need to replace
-        if (any(Do < Dismissal)) {
-          n_replace <- sum(Do<Dismissal)
-          at_replace <- which(Do<Dismissal)
-          if (debug) cat("Do < Dismissal: N=", n_replace,  " at ", at_replace, "\n")
+
+        # should set the comparison here to be only those who are *seen* by the supervisor
+        SeenDo <- Do * Seen
+        if (debug) cat("SeenDo:", SeenDo, "\n")
+        if (any(SeenDo < Dismissal, na.rm=TRUE)) {
+          n_replace <- sum(SeenDo<Dismissal, na.rm=TRUE)
+          at_replace <- which(SeenDo<Dismissal)
+          if (debug) cat("SeenDo < Dismissal: N=", n_replace,  " at ", at_replace, "\n")
+          ### HMM Do I want to change Do or SeenDo? I think I should change Do
           Do[at_replace] <- rnorm(n_replace, mean=ReplacementResponseParms[1], sd=ReplacementResponseParms[2])
 
           if (debug) cat("ReplacementPrefParms=", ReplacementPrefParms, "\n")
