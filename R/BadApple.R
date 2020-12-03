@@ -136,43 +136,54 @@ BadApple <- function(Replications, binary=TRUE, NumBurs=10, MaxIter=10,
       else cat(" without TallPerformance record\n")
   }
 
+  # setups of parameters
+  {
     if (SupObsParms[1] != -99 & !quiet) cat("SupObsParms", SupObsParms, "\n")
       Init_SupObsParms <- SupObsParms
     if (SabSupObsParms[1] != -99 & !quiet) cat("SabSupObsParms", SabSupObsParms, "\n")
       Init_SabSupObsParms <- SabSupObsParms
+
     if (Tolerance != -99 & !quiet) cat("Tolerance", Tolerance, "\n")
       Init_Tolerance <- Tolerance
+    if (Std != -99 & !quiet) cat("Std", Std, "\n")
+      Init_Std <- Std
+
     if (Punishment != -99 & !quiet) cat("Punishment", Punishment, "\n")
       Init_Punishment <- Punishment
     if (SabPunishment != -99 & !quiet) cat("SabPunishment", SabPunishment, "\n")
       Init_SabPunishment <- SabPunishment
-    if (Std != -99 & !quiet) cat("Std", Std, "\n")
-      Init_Std <- Std
     if (ResponseParms[1] != -99 & !quiet) cat("ResponseParms", ResponseParms, "\n")
       Init_ResponseParms <- ResponseParms
     if (SabResponseParms[1] != -99 & !quiet) cat("SabResponseParms", SabResponseParms, "\n")
       Init_SabResponseParms <- SabResponseParms
+    if (ReplacementResponseParms[1] != -99 & !quiet) cat("ReplacementResponseParms", ReplacementResponseParms, "\n")
+      Init_ReplacementResponseParms <- ReplacementResponseParms
+
     if (PrefParms[1] != -99 & !quiet) cat("PrefParms", PrefParms, "\n")
       Init_PrefParms <- PrefParms
     if (SabPrefParms[1] != -99 & !quiet) cat("SabPrefParms", SabPrefParms, "\n")
       Init_SabPrefParms <- SabPrefParms
+    if (ReplacementPrefParms[1] != -99 & !quiet) cat("ReplacementPrefParms", ReplacementPrefParms, "\n")
+      Init_ReplacementPrefParms <- ReplacementPrefParms
+
     if (BurObsParms[1] != -99 & !quiet) cat("BurObsParms", BurObsParms, "\n")
       Init_BurObsParms <- BurObsParms
     if (SabBurObsParms[1] != -99 & !quiet) cat("SabBurObsParms", SabBurObsParms, "\n")
       Init_SabBurObsParms <- SabBurObsParms
     if (debug) cat("DEBUGGING ACTIVE\n")
+  }
 
-  ExecSummary <- array(data=rep(Replications*20,0), dim=c(Replications, 20))
+  ExecSummary <- array(data=rep(Replications*20,0), dim=c(Replications, 24))
   if (supervision == "Relative")
     colnames(ExecSummary) <- c("SupUtilMean", "SupUtilSD", "PrefMean", "PrefSD", "RespMean", "RespSD",
                          "SupObsMean", "SupObsSD", "BurObsMean", "BurObsSD",
                          "Tolerance", "Punishment", "SabPunishment", "Connectivity", "ActualResponseMean", "ActualResponseSD",
-                         "BurUtilMean", "BurUtilSD","NumSaboteurs","Dismissal")
+                         "BurUtilMean", "BurUtilSD","NumSaboteurs","Dismissal", "ReplPrefMn", "ReplPrefSD", "ReplRespMn", "ReplRespSD")
   else if (supervision == "Fixed")
     colnames(ExecSummary) <- c("SupUtilMean", "SupUtilSD", "PrefMean", "PrefSD", "RespMean", "RespSD",
                                "SupObsMean", "SupObsSD", "BurObsMean", "BurObsSD",
                                "Std", "Punishment", "SabPunishment", "Connectivity", "ActualResponseMean", "ActualResponseSD",
-                               "BurUtilMean", "BurUtilSD","NumSaboteurs","Dismissal")
+                               "BurUtilMean", "BurUtilSD","NumSaboteurs","Dismissal," , "ReplPrefMn", "ReplPrefSD", "ReplRespMn", "ReplRespSD")
 
   # Store the results overall in Performance                                ## Do I want Performance Record to be global?
   Performance <- array(NA, dim=c(Replications*MaxIter,2+NumBurs))
@@ -193,6 +204,12 @@ BadApple <- function(Replications, binary=TRUE, NumBurs=10, MaxIter=10,
     if (SabResponseParms[1] == -99) {
       SabResponseParms <- runif(2)
       SabResponseParms[1] <- -1+2*SabResponseParms[1]
+    }
+
+    if (ReplacementResponseParms[1] == -99) {
+      # same as ResponseParms
+      ReplacementResponseParms <- runif(2)
+      ReplacementResponseParms[1] <- -1+2*ReplacementResponseParms[1]
     }
 
     # draw SupObsParms randomly for policy 1a/1b/2a/2b
@@ -249,6 +266,9 @@ BadApple <- function(Replications, binary=TRUE, NumBurs=10, MaxIter=10,
 
     #DO handle prefs for saboteurs here
     if (Init_SabPrefParms[1] == -99) SabPrefParms <- c(runif(1, min=-1, max=1), runif(1))
+
+    # handle ReplacementPrefParms here
+    if(Init_ReplacementPrefParms[1] == -99) ReplacementPrefParms <- c(runif(1, min=-9, max=1), runif(1))
 
     ### I'm not sure on the is.null call here. I *know* it's not null
     # "Relative" is for 1a/2a; "Fixed" is for 1b/1c/2b/2c
@@ -336,6 +356,8 @@ BadApple <- function(Replications, binary=TRUE, NumBurs=10, MaxIter=10,
 
         # Record Performance
         Performance[(repl_ct-1)*MaxIter+iter, 1:2] <- c(repl_ct, iter)
+
+        if (debug) cat("iter=", iter, "Response=", Response, "\n")
         Performance[(repl_ct-1)*MaxIter+iter, 3:(NumBurs+2)] <- Response
 
         # Write to TallPerformance
@@ -439,8 +461,9 @@ BadApple <- function(Replications, binary=TRUE, NumBurs=10, MaxIter=10,
         # new util < old util
         if (debug) cat("\nOld Response:\n", Do, "\n")
 
-        # Memory changes about here...
-        Response <- Do[Envy]
+        # MEMORY
+        if (debug) cat("iter=", iter, "Envy=", Envy, "\n")
+        if (length(Envy)>1) Response <- Do[Envy]
 
         if (Memory & (iter > 1)) {
           if (debug) cat("PastUtil=",PastUtil,"\nBurUtil=",BurUtil[iter,],"\n")
@@ -456,7 +479,17 @@ BadApple <- function(Replications, binary=TRUE, NumBurs=10, MaxIter=10,
 
         if (debug) cat("\nNew Response:\n", Response)
 
+        # REPLACEMENT
         # If Dismissal != -99, then if Do < Dismissal, need to replace
+        if (any(Do < Dismissal)) {
+          n_replace <- sum(Do<Dismissal)
+          at_replace <- which(Do<Dismissal)
+          if (debug) cat("Do < Dismissal: N=", n_replace,  " at ", at_replace, "\n")
+          Do[at_replace] <- rnorm(n_replace, mean=ReplacementResponseParms[1], sd=ReplacementResponseParms[2])
+
+          if (debug) cat("ReplacementPrefParms=", ReplacementPrefParms, "\n")
+          Prefs[at_replace] <- rnorm(n_replace, mean=ReplacementPrefParms[1], sd=ReplacementPrefParms[2])
+        }
         # bureaucrat with a new bureaucrat (and correspondingly change the preference vector and response vector)
 
         # play again, unless this iteration exceeds maxiter
@@ -468,7 +501,8 @@ BadApple <- function(Replications, binary=TRUE, NumBurs=10, MaxIter=10,
       ExecSummary[repl_ct, 11:15] <- c(Tolerance, Punishment, Connectivity, mean(Response), sd(Response))
     else if (supervision == "Fixed")
       ExecSummary[repl_ct, 11:15] <- c(Std, Punishment, Connectivity, mean(Response), sd(Response))
-    ExecSummary[repl_ct, 16:19] <- c(mean(BurUtil[MaxIter,]), sd(BurUtil[MaxIter,]), NumSaboteurs, Dismissal)
+    ExecSummary[repl_ct, 16:23] <- c(mean(BurUtil[MaxIter,]), sd(BurUtil[MaxIter,]), NumSaboteurs, Dismissal,
+                                     ReplacementPrefParms, ReplacementResponseParms)
 
     if (Init_SupObsParms[1] == -99) SupObsParms <- c(-99,-99)
     if (Init_Tolerance == -99) Tolerance <- -99
@@ -476,6 +510,7 @@ BadApple <- function(Replications, binary=TRUE, NumBurs=10, MaxIter=10,
     if (Init_Punishment == -99) Punishment <- -99
     if (Init_PrefParms[1] == -99) PrefParms <- c(-99, -99)
     if (Init_ResponseParms[1] == -99) ResponseParms <- c(-99, -99)
+    if (Init_ReplacementPrefParms[1] == -99) ReplacmentPrefParms <- c(-99, -99)
     if (Init_BurObsParms[1] == -99) BurObsParms <- c(-99,-99)
 
   }
