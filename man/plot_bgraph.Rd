@@ -7,16 +7,11 @@
 plot_bgraph(imit_obj, repl_num)
 }
 \arguments{
-\item{imit_obj}{A simulation object from either ImitSim() or BadApple()}
-\item{repl_num}{A replication number}
+\item{repl_num}{}
 }
 \value{
-\item{}{Produces a pretty plot of the n-graph for imit_obj at repl_num}
+
 }
 \description{
-plot_bgraph produces a plot of the n-graph (adjacency matrix) for a given replication
-}
-\examples{
-foo <- ImitSim(10)
-plot_braph(foo, 1)
+Tplot_bgraph
 }

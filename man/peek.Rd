@@ -7,16 +7,14 @@
 peek(simobj, when)
 }
 \arguments{
-\item{simobj}{A simulation object from BadApple() or ImitSim()}
-\item{when}{An iteration}
+\item{when}{}
 }
 \value{
+
 }
 \description{
-peek() returns an ugly histogram of the performance of saboteurs and others. Requires ggplot be loaded. Really should
-be renamed not to conflict with the base peek() function for handling queues.
+peek
 }
 \examples{
-foo <- BadApple(10, NumSaboteurs=3)
-peek(foo, 1)
+peek(simobj, 1)
 }

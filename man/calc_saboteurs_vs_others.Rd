@@ -7,20 +7,11 @@
 calc_saboteurs_vs_others(simobj)
 }
 \arguments{
-\item{simobj}{A simulation objection returned from BadApple() (not ImitSim(), which lacks direct saboteur simulaiton)}
+\item{simobj}{}
 }
 \value{
-\item{allmean}{Average performance of all the bureaucrats}
-\item{saboteur_mean}{Average performance of the saboteurs}
-\item{others_mean}{Average performance of the non-saboteurs}
-\item{mean_diff}{Average difference in performance (saboteurs - non-saboteurs)}
-\item{D_allmean}{Average change in performance of all bureaucrats}
-\item{D_saboteur_mean}{Average change in performance of all saboteurs}
-\item{D_others_mean}{Average change in performance of non-saboteurs}
-\item{D_mean_diff}{Average change difference}
-\item{n_convert}{Number of saboteurs who imitate performance of a non-saboteur}
-\item{n_contagion}{Number of non-saboteurs imitate performance of a saboteur}
+
 }
 \description{
-calc_saboteurs_vs_others returns a matrix with all the above values, as well as the object with all the values.
+calc_saboteurs_vs_others
 }
