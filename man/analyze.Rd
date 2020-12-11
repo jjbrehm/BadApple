@@ -16,5 +16,4 @@ analyze(o)
 analyze
 }
 \examples{
-analyze(obsty)
 }
