@@ -15,5 +15,3 @@ analyze(o)
 \description{
 analyze
 }
-\examples{
-}
