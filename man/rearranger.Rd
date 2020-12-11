@@ -7,11 +7,16 @@
 rearranger(simobj)
 }
 \arguments{
-\item{simobj}{}
+\item{simobj}{A simulation object from either ImitSim() or BadApple()}
 }
 \value{
-
+\item{}{Returns a tibble with four columns: Replication, Iteration, Worker, Performance}
 }
 \description{
-Title
+Used to return a tidyverse dataset from a simulation object documenting the performance of each worker by replication
+and iteration. Dpes not require that tallperformance=TRUE be set.
+}
+\examples{
+foo <- ImitSim(10)
+boo <- rearranger(foo)
 }

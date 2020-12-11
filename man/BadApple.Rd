@@ -7,7 +7,7 @@ Simulation of Imitation by Bureaucrats who are very poor agents
 }
 \description{
 %%  ~~ A concise (1-5 lines) description of what the function does. ~~
-Builds off of the R version of ImitSim, with the eventual intention to allow for some fraction of the bureaucrats to be poor performers. These poor performers can be specified by preferences, responses, observability (to one another or to supervisor), and by sanctioning. There is a very, very long way to go.
+Builds off of the R version of ImitSim, with the eventual intention to allow for some fraction of the bureaucrats to be poor performers. These poor performers can be specified by preferences, responses, observability (to one another or to supervisor), and by sanctioning. Can allow for memory (back one iteration) and replacement (with control over pool).
 }
 
 \usage{

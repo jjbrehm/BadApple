@@ -7,10 +7,13 @@
 perf_by_iteration(pobj, title = NA, iteration_list = NA, obj_type = "ImitSim")
 }
 \arguments{
-\item{obj_type}{}
+\tem{pobj}{Either an "ImitSim" or "BadApple" object; set obj_type appropriately.}
+\item{obj_type}{Either "ImitSim" or "BadApple" as appropriate.}
+\item{title}{An optional title (text string) for the faceted plot.}
+\item{iteration_list}{An optional list of iterations to print; default is to print all.}
 }
 \value{
-
+Returns a faceted plot of all the mean performance by iteration (specfied in the iteration_list), optionally stratified by saboteurs and others.
 }
 \description{
 perf_by_iteration()
