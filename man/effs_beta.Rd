@@ -7,37 +7,11 @@
 effs_beta(betaobj, brange = c(0, 1), base, test)
 }
 \arguments{
-\item{betaobj}{A simulation object from ImitSim() or BadApple()}
-\item{brange}{A vector (min, max) specifying the range of the beta density}
-\item{base}{A vector of length K (# vars + constant) for the baseline}
-\item{test}{A vector of length K (# vars + constant) for the test values)}
+\item{test}{}
 }
 \value{
-\item{}{Returns a vector of changes in mean of the distribution given a change from base to test}
+
 }
 \description{
-effs_beta calculates the mean shift of each variable as the variable moves from base to test conditions
-}
-\examples{
-basic <- ImitSim(1000)
-zero <- c(1,  #constant
-          0,  #PrefMean=neutral
-          0,  #RespMean=neutral
-          0,  #BurObsMean=can't see anyone
-          0,  #Tolerate everything
-          0,  #No Punishment
-          0)  #Not Connected
-
-test <- c(1,  #constant
-          1,  #PrefMean=Likes work
-          1,  #RespMean=Knows how to work
-          1,  #Sees everyone
-          2,  #Tolerates w/in 2SD
-          2,  #Harsh punishment (twice wage)
-          2)  #Connected in circuit
-
-
-basic.b <- betamle(SupUtilMean ~ PrefMean + RespMean + BurObsMean + Tolerance + Punishment + Connectivity,
-                   data=basic$ExecSummary, brange=c(-1,1))
-basic.effs <- effs_beta(basic.b, brange=c(-1,1), zero, test)
+effs_beta
 }

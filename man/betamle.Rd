@@ -7,19 +7,11 @@
 betamle(fmu, method = "BFGS", data, brange)
 }
 \arguments{
-\item{fmu}{A standard formula object. E.g., for ImitSim, "SupUtilMean ~ RespMean + PrefMean" is appropriate.}
-\item{brange}{The range of the beta function for estimating, specify as c(min, max). E.g., in ImitSim and BadApple, the ExecSummary$SupUtilMean has a range of c(-1,1), and is estimated as a beta; you must supply brange=c(-1,1). REQUIRED.}
+\item{brange}{}
 }
 \value{
-\item{coef}{If there are K variables in the model (including constant), returns a 1:(2*K) vector of coefficients.}
-\item{coef_nu}{Just the nu coefficients (1:K)}
-\item{coef_omega}{Just the omega coefficients (1:K)}
-\item{var}{A (2*K) by (2*K) variance-covariance matrix}
-\item{var_nu}{A K-by-K variance-covariance matrix for the nu coefficients.}
-\item{var_omega}{A K-by-K variance-covariance matrix for the omega coefficients.}
-\item{results}{Printed output of the Nu Coef, Nu SE, NU Z-score, p, Omega Coef, Omega SE, Omega Z, and p}
-\item{Likelihhood}{The log-likelihood from the model.}
+
 }
 \description{
-Prints the MLE estimates of the Beta density defined over brange=c(min,max). Also returns an object.
+Title
 }

@@ -7,16 +7,11 @@
 plot_performance(w)
 }
 \arguments{
-\item{w}{Plots the TallPerformance matrix from a simobj (e.g., simobj$TallPerformance). Assumes that ImitSim() or BadApple() would have been run with the tallperformance=TRUE option}
+\item{w}{}
 }
 \value{
-\item{}{Returns a ggplot of the performance record of a simulation.}
+
 }
 \description{
-Produces a ggplot of the performance by iteration of the bureaucrats in a BadApple() or ImitSim() simulation with tallperformance=TRUE set. Should be updated as rearranger() is fixed. Requires ggplot or tidyverse to be loaded.
-}
-\examples{
-library(ggplot)
-foo <- ImitSim(10, tallperformance=TRUE)
-plot_performance(foo)
+Title
 }

@@ -4,11 +4,10 @@
 \alias{analyze}
 \title{analyze}
 \usage{
-analyze(obsty)
+analyze(o)
 }
 \arguments{
-\item{obsty}{obsty is an n-by-n adjacency matrix, used in ImitSim and BadApple. Doesn't make much sense outside
-of those functions. Calls igraph::vertex_connectivity.}
+\item{o}{}
 }
 \value{
 
@@ -17,4 +16,5 @@ of those functions. Calls igraph::vertex_connectivity.}
 analyze
 }
 \examples{
+analyze(obsty)
 }

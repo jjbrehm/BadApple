@@ -7,20 +7,11 @@
 plot_gg_ngraph(imit_obj, repl_num)
 }
 \arguments{
-\item{imit_obj}{A simobj from either the ImitSim or BadApple function}
-\item{repl_num}{A replication number}
+\item{repl_num}{}
 }
 \value{
-\item{}{Returns a ggplot object suitable for building into a grid with grid.arrange()}
+
 }
 \description{
 plot_gg_ngraph
-}
-\examples{
-foo <- ImitSim(10)
-g1 <- plot_gg_ngraph(foo, 1)
-g2 <- plot_gg_ngraph(foo, 2)
-g3 <- plot_gg_ngraph(foo, 3)
-g4 <- plot_gg_ngraph(foo, 4)
-gridExtra::grid.arrange(g1, g2, g3, g4, ncol=2)
 }

@@ -7,19 +7,11 @@
 snitch_plots(simobj)
 }
 \arguments{
-\item{simobj}{A simobject from BadApple}
+\item{simobj}{}
 }
 \value{
-\item{}{A list of ggplots}
+
 }
 \description{
-snitch_plots produces a two-item list of ggplots (a histogram, a density plot).
-}
-\examples{
-library(tidyverse)
-foo <- BadApple(10, NumSaboteurs=3)
-boo <- snitch_plots(foo)
-# a histogram
-boo[[1]]
-# a density plot
+snitch_plots
 }
