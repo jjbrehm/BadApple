@@ -197,7 +197,7 @@ ImitSim <- function(Replications, binary=TRUE, NumBurs=10, MaxIter=10,
 
     Punishment <- runif(1,min=0, max=2)
 
-    Connectivity <-   igraph::vertex_connectivity(igraph::graph_from_adjacency_matrix(o))
+    Connectivity <-   igraph::vertex_connectivity(igraph::graph_from_adjacency_matrix(Obsty))
 
     # this version of the policy routine
     # assigns outcomes on the basis of dowhat * response
