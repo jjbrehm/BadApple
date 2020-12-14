@@ -197,8 +197,7 @@ ImitSim <- function(Replications, binary=TRUE, NumBurs=10, MaxIter=10,
 
     Punishment <- runif(1,min=0, max=2)
 
-    if (binary) Connectivity <- analyze(Obsty)                                         ## wouldn't seem that obsty has to be global
-     else Connectivity <- old_analyze(Obsty)
+    Connectivity <-   igraph::vertex_connectivity(igraph::graph_from_adjacency_matrix(o))
 
     # this version of the policy routine
     # assigns outcomes on the basis of dowhat * response
@@ -394,12 +393,3 @@ ImitSim <- function(Replications, binary=TRUE, NumBurs=10, MaxIter=10,
                     "SeenRecord" = SeenRecord)
   BigList
 }
-
-# analyze is busted
-analyze <- function(o) {
-  igraph::vertex_connectivity(igraph::graph_from_adjacency_matrix(o))
-}
-
-old_analyze <- function(o) {
-  cat("the original APL\11 analyze function does not work, specify 'binary=TRUE' on command instead\n")
-  }

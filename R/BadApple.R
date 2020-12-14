@@ -284,8 +284,7 @@ BadApple <- function(Replications, binary=TRUE, NumBurs=10, MaxIter=10,
 
     if (SabPunishment == -99) SabPunishment <- runif(1,min=0, max=2)
 
-    if (binary) Connectivity <- analyze(Obsty)                                         ## wouldn't seem that obsty has to be global
-     else Connectivity <- old_analyze(Obsty)
+    Connectivity <-   igraph::vertex_connectivity(igraph::graph_from_adjacency_matrix(o))
 
     # this version of the policy routine
     # assigns outcomes on the basis of dowhat * response
@@ -556,6 +555,3 @@ BadApple <- function(Replications, binary=TRUE, NumBurs=10, MaxIter=10,
   BigList
 }
 
-old_analyze <- function(o) {
-  cat("the original APL\11 analyze function does not work, specify 'binary=TRUE' on command instead\n")
-  }
