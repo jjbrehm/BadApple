@@ -74,7 +74,6 @@ require("igraph")
 #' @return
 #' @export
 #'
-#' @examples
 ImitSim <- function(Replications, binary=TRUE, NumBurs=10, MaxIter=10,
                       supervision="Relative", posprefs=FALSE, omniscient=FALSE,
                       tallperformance=FALSE,

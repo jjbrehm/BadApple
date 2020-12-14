@@ -75,9 +75,6 @@ Makes use of the igraph library. You should have it installed.
 
 %% ~Make other sections like Warning with \section{Warning }{....} ~
 
-\seealso{
-%% ~~objects to See Also as \code{\link{help}}, ~~~
-}
 \examples{
 # To replicate Table 3.1 with relative supervision, allowing for preferences to be (-1,1)
 wss <- ImitSim(1000)

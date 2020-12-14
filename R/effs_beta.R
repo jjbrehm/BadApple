@@ -7,15 +7,14 @@
 
 #' effs_beta
 #'
-#' @param betaobj
-#' @param brange
-#' @param base
-#' @param test
+#' @param betaobj betamle object
+#' @param brange vector
+#' @param base vector
+#' @param test vector
 #'
-#' @return
+#' @return vector
 #' @export
 #'
-#' @examples
 effs_beta <- function(betaobj, brange=c(0,1), base, test) {
   baseline <- mean_beta(betaobj, base, brange=brange)
 

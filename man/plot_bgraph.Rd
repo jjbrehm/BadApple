@@ -7,10 +7,12 @@
 plot_bgraph(imit_obj, repl_num)
 }
 \arguments{
-\item{repl_num}{}
+\item{imit_obj}{simulation object}
+
+\item{repl_num}{integer}
 }
 \value{
-
+plot object
 }
 \description{
 Tplot_bgraph

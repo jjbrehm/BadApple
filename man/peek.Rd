@@ -7,14 +7,13 @@
 peek(simobj, when)
 }
 \arguments{
-\item{when}{}
+\item{simobj}{simulation object}
+
+\item{when}{integer}
 }
 \value{
-
+ggplot object
 }
 \description{
 peek
-}
-\examples{
-peek(simobj, 1)
 }

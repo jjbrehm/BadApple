@@ -87,9 +87,6 @@ Makes use of the igraph library. You might need to have it installed.
 
 %% ~Make other sections like Warning with \section{Warning }{....} ~
 
-\seealso{
-%% ~~objects to See Also as \code{\link{help}}, ~~~
-}
 \examples{
 foo <- BadApple(100, NumSaboteurs=3)
 }

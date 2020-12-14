@@ -2,14 +2,13 @@
 
 #' mean_beta
 #'
-#' @param betaobj
-#' @param testvals
-#' @param brange
+#' @param betaobj betamle object
+#' @param testvals vector
+#' @param brange vector
 #'
 #' @return
 #' @export
 #'
-#' @examples
 mean_beta <- function(betaobj, testvals, brange=c(0,1)) {
  nu <- betaobj$coef_nu
  omega <- betaobj$coef_omega

@@ -2,13 +2,12 @@
 
 #' Tplot_bgraph
 #'
-#' @param imit_obj
-#' @param repl_num
+#' @param imit_obj simulation object
+#' @param repl_num integer
 #'
-#' @return
+#' @return plot object
 #' @export
 #'
-#' @examples
 plot_bgraph <- function(imit_obj, repl_num) {
   obrecord <- imit_obj$ObstyRecord
   obrecord <- array(obrecord[obrecord[,1] == repl_num, 2:(1+imit_obj$NumBurs)], dim=c(imit_obj$NumBurs, imit_obj$NumBurs))

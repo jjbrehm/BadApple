@@ -8,9 +8,9 @@
 
 #' Title
 #'
-#' @param w
+#' @param w simulation object
 #'
-#' @return
+#' @return ggplot object
 #' @export
 #'
 #' @examples

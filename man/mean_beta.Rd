@@ -7,7 +7,11 @@
 mean_beta(betaobj, testvals, brange = c(0, 1))
 }
 \arguments{
-\item{brange}{}
+\item{betaobj}{betamle object}
+
+\item{testvals}{vector}
+
+\item{brange}{vector}
 }
 \value{
 

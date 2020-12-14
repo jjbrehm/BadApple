@@ -2,16 +2,14 @@
 
 #' Title
 #'
-#' @param fmu
-#' @param method
-#' @param data
-#' @param brange
+#' @param fmu formula object
+#' @param method character string
+#' @param data dataset
+#' @param brange vector
 #'
-#' @return
 #' @export
 #'
-#' @examples
-  betamle <-function(fmu,method='BFGS', data, brange){
+betamle <-function(fmu,method='BFGS', data, brange){
 
     attach(data, warn.conflicts=FALSE)
 

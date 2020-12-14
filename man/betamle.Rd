@@ -7,10 +7,13 @@
 betamle(fmu, method = "BFGS", data, brange)
 }
 \arguments{
-\item{brange}{}
-}
-\value{
+\item{fmu}{formula object}
 
+\item{method}{character string}
+
+\item{data}{dataset}
+
+\item{brange}{vector}
 }
 \description{
 Title

@@ -2,13 +2,12 @@
 
 #' plot_gg_ngraph
 #'
-#' @param imit_obj
-#' @param repl_num
+#' @param imit_obj simulation objecct
+#' @param repl_num integer
 #'
-#' @return
+#' @return ggplot object
 #' @export
 #'
-#' @examples
 plot_gg_ngraph <- function(imit_obj, repl_num) {
   obrecord <- imit_obj$ObstyRecord
   obrecord <- array(obrecord[obrecord[,1] == repl_num, 2:(1+imit_obj$NumBurs)], dim=c(imit_obj$NumBurs, imit_obj$NumBurs))

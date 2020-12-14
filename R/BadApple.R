@@ -98,7 +98,6 @@ require("igraph")
 #' @return
 #' @export
 #'
-#' @examples
 BadApple <- function(Replications, binary=TRUE, NumBurs=10, MaxIter=10,
                       supervision="Relative", posprefs=FALSE, omniscient=FALSE,
                       Memory=FALSE, Dismissal=-99,
@@ -107,7 +106,8 @@ BadApple <- function(Replications, binary=TRUE, NumBurs=10, MaxIter=10,
                       ResponseParms=c(-99,-99), PrefParms=c(-99,-99), BurObsParms=c(-99,-99),
                       NumSaboteurs=3, SabPunishment=-99,
                       SabResponseParms=c(-99,-99), SabPrefParms=c(-99,-99), SabBurObsParms=c(-99,-99),
-                      SabSupObsParms=c(-99,-99), ReplacementPrefParms=c(-99, -99), ReplacementResponseParms=c(-99,-99),
+                      SabSupObsParms=c(-99,-99), ReplacementPrefParms=c(-99, -99),
+                      ReplacementResponseParms=c(-99,-99),
                       quiet=FALSE, debug=FALSE) {
   # This routine randomly draws the assorted parameters
   # and stores the final mean supoutc as a dependent var

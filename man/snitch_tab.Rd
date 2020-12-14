@@ -7,10 +7,10 @@
 snitch_tab(simobj)
 }
 \arguments{
-\item{simobj}{}
+\item{simobj}{simulation object}
 }
 \value{
-
+matrix
 }
 \description{
 snitch_tab

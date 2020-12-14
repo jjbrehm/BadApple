@@ -7,10 +7,10 @@
 calc_saboteurs_vs_others(simobj)
 }
 \arguments{
-\item{simobj}{}
+\item{simobj}{simulation object}
 }
 \value{
-
+matrix
 }
 \description{
 calc_saboteurs_vs_others

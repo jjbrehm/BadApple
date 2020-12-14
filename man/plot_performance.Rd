@@ -7,10 +7,10 @@
 plot_performance(w)
 }
 \arguments{
-\item{w}{}
+\item{w}{simulation object}
 }
 \value{
-
+ggplot object
 }
 \description{
 Title

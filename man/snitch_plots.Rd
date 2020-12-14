@@ -7,10 +7,10 @@
 snitch_plots(simobj)
 }
 \arguments{
-\item{simobj}{}
+\item{simobj}{simulation object}
 }
 \value{
-
+list
 }
 \description{
 snitch_plots

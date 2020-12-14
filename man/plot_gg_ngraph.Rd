@@ -7,10 +7,12 @@
 plot_gg_ngraph(imit_obj, repl_num)
 }
 \arguments{
-\item{repl_num}{}
+\item{imit_obj}{simulation objecct}
+
+\item{repl_num}{integer}
 }
 \value{
-
+ggplot object
 }
 \description{
 plot_gg_ngraph

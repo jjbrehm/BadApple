@@ -1,11 +1,10 @@
 #' calc_saboteurs_vs_others
 #'
-#' @param simobj
+#' @param simobj simulation object
 #'
-#' @return
+#' @return matrix
 #' @export
 #'
-#' @examples
 calc_saboteurs_vs_others <- function(simobj) {
   ns <- simobj$NumSaboteurs
   perf.t <- simobj$Performance

@@ -1,14 +1,13 @@
 #' perf_by_iteration()
 #'
-#' @param pobj
-#' @param title
-#' @param iteration_list
-#' @param obj_type
+#' @param pobj simulation object
+#' @param title string
+#' @param iteration_list vector
+#' @param obj_type character string
 #'
-#' @return
+#' @return ggplot object
 #' @export
 #'
-#' @examples
 perf_by_iteration <- function(pobj, title=NA, iteration_list=NA, obj_type="ImitSim") {
   perf <- as_tibble(pobj$Performance)
 

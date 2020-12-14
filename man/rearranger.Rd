@@ -7,10 +7,10 @@
 rearranger(simobj)
 }
 \arguments{
-\item{simobj}{}
+\item{simobj}{simulation object}
 }
 \value{
-
+matrix
 }
 \description{
 Title

@@ -7,10 +7,16 @@
 effs_beta(betaobj, brange = c(0, 1), base, test)
 }
 \arguments{
-\item{test}{}
+\item{betaobj}{betamle object}
+
+\item{brange}{vector}
+
+\item{base}{vector}
+
+\item{test}{vector}
 }
 \value{
-
+vector
 }
 \description{
 effs_beta

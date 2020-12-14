@@ -1,11 +1,10 @@
 #' snitch_plots
 #'
-#' @param simobj
+#' @param simobj simulation object
 #'
-#' @return
+#' @return list
 #' @export
 #'
-#' @examples
 snitch_plots <- function(simobj) {
   ns <- simobj$NumSaboteurs
   calc <- as_tibble(calc_saboteurs_vs_others(simobj))

@@ -7,10 +7,16 @@
 perf_by_iteration(pobj, title = NA, iteration_list = NA, obj_type = "ImitSim")
 }
 \arguments{
-\item{obj_type}{}
+\item{pobj}{simulation object}
+
+\item{title}{string}
+
+\item{iteration_list}{vector}
+
+\item{obj_type}{character string}
 }
 \value{
-
+ggplot object
 }
 \description{
 perf_by_iteration()
