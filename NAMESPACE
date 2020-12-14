@@ -2,7 +2,6 @@
 
 export(BadApple)
 export(ImitSim)
-export(analyze)
 export(betamle)
 export(calc_saboteurs_vs_others)
 export(effs_beta)
