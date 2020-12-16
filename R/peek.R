@@ -5,11 +5,11 @@
 #'
 #' @return ggplot object
 #' @export
+#' @import dplyr
 #'
 peek <- function(simobj, when) {
-  require(tidyverse)
   what <- as_tibble(rearranger(simobj)) %>%
-    filter(Iteration==when) %>%
-    mutate(who=ifelse((Worker=="V3"|Worker=="V4"|Worker=="V5"), "Saboteur", "Other"))
-  ggplot(what, aes(x=Performance, fill=who)) + geom_histogram()
+    dplyr::filter(Iteration==when) %>%
+    mutate(Who=ifelse((Worker=="V3"|Worker=="V4"|Worker=="V5"), "Saboteur", "Other"))
+  ggplot(what, aes(x=Performance, fill=Who)) + geom_histogram()
 }

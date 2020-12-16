@@ -4,6 +4,7 @@
 #'
 #' @return matrix
 #' @export
+#' @import magrittr
 #'
 calc_saboteurs_vs_others <- function(simobj) {
   ns <- simobj$NumSaboteurs
@@ -15,8 +16,8 @@ calc_saboteurs_vs_others <- function(simobj) {
 
   perf.t <- as_tibble(perf.t)
 
-  last_iter.t <- perf.t %>% filter(Iteration==simobj$MaxIter)
-  first_iter.t <- perf.t %>% filter(Iteration==1)
+  last_iter.t <- perf.t %>% dplyr::filter(Iteration==simobj$MaxIter)
+  first_iter.t <- perf.t %>% dplyr::filter(Iteration==1)
 
   record <- last_iter.t %>%
     select(-Replication, -Iteration)

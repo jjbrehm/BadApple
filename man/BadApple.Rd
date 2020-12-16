@@ -11,34 +11,35 @@ Builds off of the R version of ImitSim, with the eventual intention to allow for
 }
 
 \usage{
-BadApple(replications, NumSaboteurs, NumBur, MaxIter, supervision, omniscient, posprefs, binary, Tolerance, Std,
-Punishment, SupObsParms, PrefParms, RespParms, BurObsParms, Memory, Dismissal, ReplacementPrefParms, ReplacementResponseParms)
+BadApple(Replications, NumSaboteurs=3, NumBurs=10, MaxIter=10, supervision="Relative", posprefs=FALSE, omniscient=FALSE, Memory=FALSE, Dismissal=-99, tallperformance=FALSE, Tolerance=-99, Std=-99,
+Punishment=-99, SupObsParms=c(-99,-99), ResponseParms=c(-99,-99), PrefParms=c(-99,-99), BurObsParms=c(-99,-99), SabSupObsParms=c(-99,-99), SabPunishment=-99,
+SabResponseParms=c(-99,-99), SabPrefParms=c(-99,-99), SabBurObsParms=c(-99,-99), ReplacementPrefParms=c(-99,-99), ReplacementResponseParms=c(-99,-99), quiet=FALSE, debug=FALSE)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
-  \item{replications}{Number (integer) of replications of each run.}
+  \item{Replications}{Number (integer) of replications of each run.}
   \item{NumSaboteurs}{Number (integer) of poor performer (NumSaboteurs < NumBur), default=3.}
-  \item{NumBur}{Number (integer) of Bureaucrats.}
+  \item{NumBurs}{Number (integer) of Bureaucrats.}
   \item{MaxIter}{Number (integer) of iterations for each replication to run.}
   \item{supervision}{"Relative" (default) for supervisor to identify deviants based on low-end deviations from responses by other bureaucrats, "Fixed" for the supervisor to identify deviants based on a floor of minimal performance.}
+  \item{posprefs}{Logical, FALSE (default) if the preferences of the bureaucrats are not constrained to be positive.
+    TRUE if the preferences of the bureacrats must be positive.}
   \item{omniscient}{Logical, FALSE (default) if the supervisor cannot see everyone, TRUE if she can.}
   \item{Memory}{Logical, FALSE (default) if the bureaucrat does not adapt behavior conditional on improvement from previous iteration}
   \item{Dismissal}{Number (float) that sets when the bureaucrat is dismissed, and replaced with a new bureaucrat (from what pool?)}
-  \item{posprefs}{Logical, FALSE (default) if the preferences of the bureaucrats are not constrained to be positive.
-    TRUE if the preferences of the bureacrats must be positive.}
-  \item{binary}{TRUE (default) if the observability matrix is converted to binary for the connectivvity calculations.
-    Throws an error otherwise.}
+  \item{tallperformance}{Logical, default=FALSE. Creates a tall record of the performance of each bureaucrat at each iteration of each repllication. Very slow.}
   \item{Tolerance}{Number (float) of standard deviations away from mean that the supervisor will regard as being
     deviant. Only makes sense if the "supervision is "Relative".}
   \item{Std}{Number (float) in range (-1,1) for supervisor to regard as the floor for performance. Only makes sense if
     the supervision is "Fixed".}
   \item{Punishment}{Number (float) subtracted from each deviant bureaucrat.}
+  \item{SabPunishment}{Number (float) subtracted from each deviant saboteur (known as being among the first [1,NumSaboteurs] bureaucrats)}
   \item{SupObsParms}{Vector (mean,sd) for the observability of the bureaucrats by the supervisor. Can be redunddant with omniscient, which sets all bureaucrats as visiible (i.e., equivalent to SupObsPamrs=c(1,0)}
   \item{SabSupObsParms}{Vector (mean, sd) for the observability of the saboteurs by the supervisor.}
   \item{PrefParms}{Vector (mean,sd) for the preferences of the bureaucrat.}
   \item{SabPrefParms}{Vector (mean, sd) for the preferences of the saboteurs}
-  \item{RespParms}{Vector (mean,sd) for the responses of the bureaucrats.}
-  \item{SabRespParms}{Vector (mean,sd) for the responses of the saboteurs.}
+  \item{ResponseParms}{Vector (mean,sd) for the responses of the bureaucrats.}
+  \item{SabResponseParms}{Vector (mean,sd) for the responses of the saboteurs.}
   \item{BurObsParms}{Vector (mean,sd) for the observability of each bureaucrat to one another.}
   \item{SabBurObsParms}{Vector (mean,sd) for the observability of the saboteurs (of everyone. Used to set observability of the saboteurs of the group and create isolation of the netwwork.)}
   \item{ReplacementPrefParms}{Vector (mean, sd) for the preferences of the replacements.}
@@ -62,7 +63,6 @@ This might be the place for text about the way the function will work.
 \item{NumBurs }{Number of bureaucrats (default=10)}
 \item{NumSaboteurs}{Number of saboteurs. No default, and required.}
 \item{MaxIter }{Number of iterations per replication (default=10)}
-\item{binary }{Whether the connectivity of the observability is computed using a binary adjacency matrix.}
 \item{supervision }{The mode of supervision ("Relative", "Fixed")}
 \item{posprefs }{Are the preferences constrained to be positive?}
 \item{omniscient }{Is the supervisor omniscient? (I.e., can see performance of all her subordinates?)}

@@ -11,20 +11,18 @@ ImitSim() runs an R version of the imitation simulation as published in \emph{Wo
 }
 
 \usage{
-ImitSim(replications, NumBur, MaxIter, supervision, omniscient, posprefs, binary, Tolerance, Std,
-Punishment, SupObsParms, PrefParms, RespParms, BurObsParms)
+ImitSim(Replications, NumBurs=10, MaxIter=10, supervision="Relative", posprefs=FALSE, omniscient=FALSE, Tolerance=-99,
+Std=-99, Punishment=-99, SupObsParms=c(-99,-99), PrefParms=c(-99,-99), ResponseParms=c(-99,-99), BurObsParms=c(-99,-99), tallperformance=FALSE, quiet=FALSE, debug=FALSE)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
-  \item{replications}{Number (integer) of replications of each run.}
-  \item{NumBur}{Number (integer) of Bureaucrats.}
+  \item{Replications}{Number (integer) of replications of each run.}
+  \item{NumBurs}{Number (integer) of Bureaucrats.}
   \item{MaxIter}{Number (integer) of iterations for each replication to run.}
   \item{supervision}{"Relative" (default) for supervisor to identify deviants based on low-end deviations from responses by other bureaucrats, "Fixed" for the supervisor to identify deviants based on a floor of minimal performance.}
-  \item{omniscient}{Logical, FALSE (default) if the supervisor cannot see everyone, TRUE if she can.}
   \item{posprefs}{Logical, FALSE (default) if the preferences of the bureaucrats are not constrained to be positive.
     TRUE if the preferences of the bureacrats must be positive.}
-  \item{binary}{TRUE (default) if the observability matrix is converted to binary for the connectivvity calculations.
-    Throws an error otherwise.}
+  \item{omniscient}{Logical, FALSE (default) if the supervisor cannot see everyone, TRUE if she can.}
   \item{Tolerance}{Number (float) of standard deviations away from mean that the supervisor will regard as being
     deviant. Only makes sense if the "supervision is "Relative".}
   \item{Std}{Number (float) in range (-1,1) for supervisor to regard as the floor for performance. Only makes sense if
@@ -32,8 +30,9 @@ Punishment, SupObsParms, PrefParms, RespParms, BurObsParms)
   \item{Punishment}{Number (float) subtracted from each deviant bureaucrat.}
   \item{SupObsParms}{Vector (mean,sd) for the observability of the supervisor. Can be redunddant with omniscient, which sets all bureaucrats as visiible (i.e., equivalent to SupObsPamrs=c(1,0)}
   \item{PrefParms}{Vector (mean,sd) for the preferences of the bureaucrat.}
-  \item{RespParms}{Vector (mean,sd) for the responses of the bureaucrats.}
-  \item{BurobsParms}{Vector (mean,sd) for the observability of each bureaucrat to one another.}
+  \item{ResponseParms}{Vector (mean,sd) for the responses of the bureaucrats.}
+  \item{BurObsParms}{Vector (mean,sd) for the observability of each bureaucrat to one another.}
+  \item{tallperformance}{If TRUE, produces a "Performance" object which records the response by each bureaucrat at each iteration}
   \item{debug}{If TRUE, prints debugging information.}
   \item{quiet}{If TRUE, prints no startup information (but will print debugging information, if requested).}
 %%     ~~Describe \code{x} here~~
@@ -49,10 +48,9 @@ This might be the place for text about the way the function will work.
 %%  \item{comp2 }{Description of 'comp2'}
 %% ...
 \item{ExecSummary }{Returns a (tidy-ready) dataframe that contains:  \verb{Replication, Iteration, SupUtilMean, SupUtilSD, PrefMean, PrefSD, ResponseMean, ResponseSD, SupObsMean, SupObsSD, BurObsMean, BurObsSD, Tolerance (or Std),} \verb{Punishment, Connectivity, FinalResponseMean, FinalResponseSD, BurUtilMean, BurUtilSD}}
-\item{version }{1.1b3}
+\item{version }{2.02}
 \item{NumBurs }{Number of bureaucrats (default=10)}
 \item{MaxIter }{Number of iterations per replication (default=10)}
-\item{binary }{Whether the connectivity of the observability is computed using a binary adjacency matrix.}
 \item{supervision }{The mode of supervision ("Relative", "Fixed")}
 \item{posprefs }{Are the preferences constrained to be positive?}
 \item{omniscient }{Is the supervisor omniscient? (I.e., can see performance of all her subordinates?)}

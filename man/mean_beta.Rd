@@ -14,7 +14,7 @@ mean_beta(betaobj, testvals, brange = c(0, 1))
 \item{brange}{vector}
 }
 \value{
-
+vector
 }
 \description{
 mean_beta

@@ -9,10 +9,6 @@
 # I really really really hate github.
 
 
-require("igraph")
-#require("xts") # only for the first()/last() functions for the old_analyze take and drop
-
-
 # Call:
 # BadApple(Replications, NumBurs=10, MaxIter=10, binary=TRUE, supervision="Relative")
 #   - Returns:
@@ -66,7 +62,7 @@ require("igraph")
 #' BadApple
 #'
 #' @param Replications integer
-#' @param binary logical
+#' @param NumSaboteurs integer
 #' @param NumBurs integer
 #' @param MaxIter integer
 #' @param supervision character
@@ -74,6 +70,7 @@ require("igraph")
 #' @param omniscient logical
 #' @param Memory logical
 #' @param Dismissal integer
+#' @param tallperformance logical
 #' @param SupObsParms vector(2)
 #' @param Tolerance double
 #' @param Std doublw
@@ -81,32 +78,30 @@ require("igraph")
 #' @param ResponseParms vector(2)
 #' @param PrefParms vector(2)
 #' @param BurObsParms vector(2)
-#' @param NumSaboteurs integer
 #' @param SabSupObsParms vector(2)
 #' @param SabPunishment double
-#' @param SabResponseParms vector(2)
 #' @param SabResponseParms vector(2)
 #' @param SabPrefParms vector(2)
 #' @param SabBurObsParms vector(2)
 #' @param ReplacementPrefParms vector(2)
 #' @param ReplacementResponseParms vector(2)
-#' @param tallperformance logical
 #' @param quiet logical
 #' @param debug logical
-#' @param quiet logical
 #'
-#' @return
+#' @return simulation object
 #' @export
+#' @import stats
 #'
-BadApple <- function(Replications, binary=TRUE, NumBurs=10, MaxIter=10,
-                      supervision="Relative", posprefs=FALSE, omniscient=FALSE,
+BadApple <- function(Replications, NumSaboteurs=3, NumBurs=10, MaxIter=10,
+                      supervision="Relative", posprefs=FALSE,
+                      omniscient=FALSE,
                       Memory=FALSE, Dismissal=-99,
                       tallperformance=FALSE,
-                      SupObsParms=c(-99,-99), Tolerance=-99, Std=-99, Punishment=-99,
+                      Tolerance=-99, Std=-99, Punishment=-99, SupObsParms=c(-99,-99),
                       ResponseParms=c(-99,-99), PrefParms=c(-99,-99), BurObsParms=c(-99,-99),
-                      NumSaboteurs=3, SabPunishment=-99,
+                      SabSupObsParms=c(-99,-99), SabPunishment=-99,
                       SabResponseParms=c(-99,-99), SabPrefParms=c(-99,-99), SabBurObsParms=c(-99,-99),
-                      SabSupObsParms=c(-99,-99), ReplacementPrefParms=c(-99, -99),
+                      ReplacementPrefParms=c(-99, -99),
                       ReplacementResponseParms=c(-99,-99),
                       quiet=FALSE, debug=FALSE) {
   # This routine randomly draws the assorted parameters
@@ -527,7 +522,6 @@ BadApple <- function(Replications, binary=TRUE, NumBurs=10, MaxIter=10,
                     "NumSaboteurs" = NumSaboteurs,
                     "MaxIter" = MaxIter,
                     "Replications" = Replications,
-                    "binary" = binary,
                     "supervision" = supervision,
                     "posprefs" = posprefs,
                     "omniscient" = omniscient,
@@ -543,7 +537,6 @@ BadApple <- function(Replications, binary=TRUE, NumBurs=10, MaxIter=10,
                     "NumSaboteurs" = NumSaboteurs,
                     "MaxIter" = MaxIter,
                     "Replications" = Replications,
-                    "binary" = binary,
                     "supervision" = supervision,
                     "posprefs" = posprefs,
                     "omniscient" = omniscient,

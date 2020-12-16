@@ -11,9 +11,9 @@
 #'
 betamle <-function(fmu,method='BFGS', data, brange){
 
-    attach(data, warn.conflicts=FALSE)
+    #attach(data, warn.conflicts=FALSE)
 
-    Fmu <- terms(fmu)
+    Fmu <- terms(fmu, data=data)
     X.vars <- as.character(attr(Fmu, "variables"))[c(-1, -2)]
     X.data <- model.matrix(fmu)
 

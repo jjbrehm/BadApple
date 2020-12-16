@@ -6,7 +6,7 @@
 #' @param testvals vector
 #' @param brange vector
 #'
-#' @return
+#' @return vector
 #' @export
 #'
 mean_beta <- function(betaobj, testvals, brange=c(0,1)) {

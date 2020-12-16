@@ -4,6 +4,7 @@
 #'
 #' @return matrix
 #' @export
+#' @import tidyverse
 #'
 snitch_tab <- function(simobj) {
   ns <- simobj$NumSaboteurs

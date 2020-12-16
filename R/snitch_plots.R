@@ -4,6 +4,7 @@
 #'
 #' @return list
 #' @export
+#' @import tidyverse
 #'
 snitch_plots <- function(simobj) {
   ns <- simobj$NumSaboteurs

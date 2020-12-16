@@ -11,6 +11,8 @@
 perf_by_iteration <- function(pobj, title=NA, iteration_list=NA, obj_type="ImitSim") {
   perf <- as_tibble(pobj$Performance)
 
+  # note that hard coding in V1, etc is a problem.
+  # I should use the NumBurs/NumSaboteurs information
   if (obj_type=="ImitSim") {
     perf <- perf %>%
       rename(Replication=V1, Iteration=V2) %>%
@@ -31,7 +33,7 @@ perf_by_iteration <- function(pobj, title=NA, iteration_list=NA, obj_type="ImitS
 
 
   if (!is.na(iteration_list))
-    perf <- perf %>% filter(Iteration %in% iteration_list)
+    perf <- perf %>% dplyr::filter(Iteration %in% iteration_list)
 
   if (obj_type=="ImitSim") {
     ggplot(perf, aes(x=Performance)) +

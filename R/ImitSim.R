@@ -6,10 +6,6 @@
 
 # github was written by tech-morons
 
-require("igraph")
-#require("xts") # only for the first()/last() functions for the old_analyze take and drop
-
-
 # Call:
 # ImitSim(Replications, NumBurs=10, MaxIter=10, binary=TRUE, supervision="Relative")
 #   - Returns:
@@ -53,39 +49,49 @@ require("igraph")
 #' ImitSim
 #'
 #' @param Replications integer
-#' @param binary logical
 #' @param NumBurs integer
 #' @param MaxIter integer
 #' @param supervision character
 #' @param posprefs logical
 #' @param omniscient logical
-#' @param SupObsParms vector(2)
 #' @param Tolerance double
-#' @param Std doublw
+#' @param Std double
 #' @param Punishment double
-#' @param ResponseParms vector(2)
-#' @param PrefParms vector(2)
-#' @param BurObsParms vector(2)
-#' @param tallperformance logical
-#' @param quiet logical
-#' @param debug logical
-#' @param quiet logical
+#' @param ... additional parameters
+##' @param SupObsParms vector(2)
+##' @param ResponseParms vector(2)
+##' @param PrefParms vector(2)
+##' @param BurObsParms vector(2)
+##' @param tallperformance logical
+##' @param quiet logical
+##' @param debug logical
 #'
-#' @return
+#' @return simulation object
 #' @export
+#' @import tidyverse
 #'
-ImitSim <- function(Replications, binary=TRUE, NumBurs=10, MaxIter=10,
-                      supervision="Relative", posprefs=FALSE, omniscient=FALSE,
-                      tallperformance=FALSE,
-                      SupObsParms=c(-99,-99), Tolerance=-99, Std=-99, Punishment=-99,
-                      ResponseParms=c(-99,-99), PrefParms=c(-99,-99), BurObsParms=c(-99,-99),
-                      quiet=FALSE, debug=FALSE) {
+ImitSim <- function(Replications,
+                    NumBurs=10,
+                    MaxIter=10,
+                    supervision="Relative",
+                    posprefs=FALSE,
+                    omniscient=FALSE,
+                    Tolerance=-99,
+                    Std=-99,
+                    Punishment=-99,
+                    SupObsParms=c(-99,-99),
+                    PrefParms=c(-99,-99),
+                    ResponseParms=c(-99,-99),
+                    BurObsParms=c(-99,-99),
+                    tallperformance=FALSE,
+                    quiet=FALSE,
+                    debug=FALSE) {
   # This routine randomly draws the assorted parameters
   # and stores the final mean supoutc as a dependent var
   # Version 1a calls policy 1a (relative punishment) based on punrate
 
   if (!quiet) {
-    cat("Running Imit Sim over", Replications, "Replications\n")
+    cat("Running ImitSim over", Replications, "Replications\n")
     cat(" with NumBurs", NumBurs, "\n")
     cat(" over MaxIter", MaxIter, "\n")
 
@@ -196,7 +202,7 @@ ImitSim <- function(Replications, binary=TRUE, NumBurs=10, MaxIter=10,
 
     Punishment <- runif(1,min=0, max=2)
 
-    Connectivity <-   igraph::vertex_connectivity(igraph::graph_from_adjacency_matrix(Obsty))
+    Connectivity <- igraph::vertex_connectivity(igraph::graph_from_adjacency_matrix(Obsty))
 
     # this version of the policy routine
     # assigns outcomes on the basis of dowhat * response
@@ -364,11 +370,10 @@ ImitSim <- function(Replications, binary=TRUE, NumBurs=10, MaxIter=10,
   }
 
   if (tallperformance)
-    BigList <- list("Version" = "2.0a1",
+    BigList <- list("Version" = "2.02",
                     "NumBurs" = NumBurs,
                     "MaxIter" = MaxIter,
                     "Replications" = Replications,
-                    "binary" = binary,
                     "supervision" = supervision,
                     "posprefs" = posprefs,
                     "omniscient" = omniscient,
@@ -378,11 +383,10 @@ ImitSim <- function(Replications, binary=TRUE, NumBurs=10, MaxIter=10,
                     "ObstyRecord" = ObstyRecord,
                     "SeenRecord" = SeenRecord)
   if (!tallperformance)
-    BigList <- list("Version" = "2.0a1",
+    BigList <- list("Version" = "2.02",
                     "NumBurs" = NumBurs,
                     "MaxIter" = MaxIter,
                     "Replications" = Replications,
-                    "binary" = binary,
                     "supervision" = supervision,
                     "posprefs" = posprefs,
                     "omniscient" = omniscient,
