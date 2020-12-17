@@ -11,9 +11,13 @@ Builds off of the R version of ImitSim, with the eventual intention to allow for
 }
 
 \usage{
-BadApple(Replications, NumSaboteurs=3, NumBurs=10, MaxIter=10, supervision="Relative", posprefs=FALSE, omniscient=FALSE, Memory=FALSE, Dismissal=-99, tallperformance=FALSE, Tolerance=-99, Std=-99,
-Punishment=-99, SupObsParms=c(-99,-99), ResponseParms=c(-99,-99), PrefParms=c(-99,-99), BurObsParms=c(-99,-99), SabSupObsParms=c(-99,-99), SabPunishment=-99,
-SabResponseParms=c(-99,-99), SabPrefParms=c(-99,-99), SabBurObsParms=c(-99,-99), ReplacementPrefParms=c(-99,-99), ReplacementResponseParms=c(-99,-99), quiet=FALSE, debug=FALSE)
+BadApple(Replications, NumSaboteurs=3, NumBurs=10, MaxIter=10, supervision="Relative",
+posprefs=FALSE, omniscient=FALSE, Memory=FALSE, Dismissal=-99, tallperformance=FALSE,
+Tolerance=-99, Std=-99, Punishment=-99, SupObsParms=c(-99,-99), ResponseParms=c(-99,-99),
+PrefParms=c(-99,-99), BurObsParms=c(-99,-99), SabSupObsParms=c(-99,-99),
+SabPunishment=-99, SabResponseParms=c(-99,-99), SabPrefParms=c(-99,-99),
+SabBurObsParms=c(-99,-99), ReplacementPrefParms=c(-99,-99),
+ReplacementResponseParms=c(-99,-99), quiet=FALSE, debug=FALSE)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{

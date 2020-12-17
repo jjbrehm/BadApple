@@ -83,9 +83,9 @@ ImitSim <- function(Replications,
                     PrefParms=c(-99,-99),
                     ResponseParms=c(-99,-99),
                     BurObsParms=c(-99,-99),
-                    tallperformance=FALSE,
                     quiet=FALSE,
-                    debug=FALSE) {
+                    debug=FALSE,
+                    tallperformance=FALSE) {
   # This routine randomly draws the assorted parameters
   # and stores the final mean supoutc as a dependent var
   # Version 1a calls policy 1a (relative punishment) based on punrate

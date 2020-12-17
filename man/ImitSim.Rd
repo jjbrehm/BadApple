@@ -11,8 +11,10 @@ ImitSim() runs an R version of the imitation simulation as published in \emph{Wo
 }
 
 \usage{
-ImitSim(Replications, NumBurs=10, MaxIter=10, supervision="Relative", posprefs=FALSE, omniscient=FALSE, Tolerance=-99,
-Std=-99, Punishment=-99, SupObsParms=c(-99,-99), PrefParms=c(-99,-99), ResponseParms=c(-99,-99), BurObsParms=c(-99,-99), tallperformance=FALSE, quiet=FALSE, debug=FALSE)
+ImitSim(Replications, NumBurs=10, MaxIter=10, supervision="Relative", posprefs=FALSE,
+omniscient=FALSE, Tolerance=-99, Std=-99, Punishment=-99, SupObsParms=c(-99,-99),
+PrefParms=c(-99,-99), ResponseParms=c(-99,-99), BurObsParms=c(-99,-99),
+quiet=FALSE, debug=FALSE, tallperformance=FALSE)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
