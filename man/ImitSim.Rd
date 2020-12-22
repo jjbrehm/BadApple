@@ -14,7 +14,7 @@ ImitSim() runs an R version of the imitation simulation as published in \emph{Wo
 ImitSim(Replications, NumBurs=10, MaxIter=10, supervision="Relative", posprefs=FALSE,
 omniscient=FALSE, Tolerance=-99, Std=-99, Punishment=-99, SupObsParms=c(-99,-99),
 PrefParms=c(-99,-99), ResponseParms=c(-99,-99), BurObsParms=c(-99,-99),
-quiet=FALSE, debug=FALSE, tallperformance=FALSE)
+quiet=FALSE, debug=FALSE}
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
@@ -34,7 +34,6 @@ quiet=FALSE, debug=FALSE, tallperformance=FALSE)
   \item{PrefParms}{Vector (mean,sd) for the preferences of the bureaucrat.}
   \item{ResponseParms}{Vector (mean,sd) for the responses of the bureaucrats.}
   \item{BurObsParms}{Vector (mean,sd) for the observability of each bureaucrat to one another.}
-  \item{tallperformance}{If TRUE, produces a "Performance" object which records the response by each bureaucrat at each iteration}
   \item{debug}{If TRUE, prints debugging information.}
   \item{quiet}{If TRUE, prints no startup information (but will print debugging information, if requested).}
 %%     ~~Describe \code{x} here~~

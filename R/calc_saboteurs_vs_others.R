@@ -7,6 +7,9 @@
 #' @import magrittr
 #'
 calc_saboteurs_vs_others <- function(simobj) {
+  last_warning_setting = getOption("warn")
+  options(warn=-1)
+
   ns <- simobj$NumSaboteurs
   perf.t <- simobj$Performance
   nc <- ncol(perf.t)
@@ -22,18 +25,18 @@ calc_saboteurs_vs_others <- function(simobj) {
   record <- last_iter.t %>%
     select(-Replication, -Iteration)
   results <- record %>%
-    mutate(allmean=apply(record, 1, mean),
-           saboteur_mean=apply(record[1:ns], 1, mean),
-           others_mean=apply(record[(ns+1):ncol(record)], 1, mean),
+    mutate(allmean=rowMeans(record),
+           saboteur_mean=rowMeans(record[1:ns]),
+           others_mean=rowMeans(record[(ns=1):ncol(record)]),
            mean_diff=others_mean-saboteur_mean) %>%
     select(allmean, saboteur_mean, others_mean, mean_diff)
 
   diff.t <- last_iter.t - first_iter.t
   diff.t <- diff.t %>%
     select(-Replication, -Iteration) %>%
-    mutate(D_allmean=apply(record, 1, mean),
-           D_saboteur_mean=apply(record[1:ns], 1, mean),
-           D_others_mean=apply(record[(ns+1):ncol(record)], 1, mean),
+    mutate(D_allmean=rowMeans(record),
+           D_saboteur_mean=rowMeans(record[1:ns]),
+           D_others_mean=rowMeans(record[(ns+1):ncol(record)]),
            D_mean_diff=D_others_mean-D_saboteur_mean) %>%
     select(D_allmean, D_saboteur_mean, D_others_mean, D_mean_diff)
 
@@ -79,5 +82,6 @@ calc_saboteurs_vs_others <- function(simobj) {
   n_calcs <- data.frame(n_contagion, n_convert)
 
   results <- cbind(results, n_calcs)
+  options(warn=last_warning_setting)
   results
 }

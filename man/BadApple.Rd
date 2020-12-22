@@ -12,7 +12,7 @@ Builds off of the R version of ImitSim, with the eventual intention to allow for
 
 \usage{
 BadApple(Replications, NumSaboteurs=3, NumBurs=10, MaxIter=10, supervision="Relative",
-posprefs=FALSE, omniscient=FALSE, Memory=FALSE, Dismissal=-99, tallperformance=FALSE,
+posprefs=FALSE, omniscient=FALSE, Memory=FALSE, Dismissal=-99,
 Tolerance=-99, Std=-99, Punishment=-99, SupObsParms=c(-99,-99), ResponseParms=c(-99,-99),
 PrefParms=c(-99,-99), BurObsParms=c(-99,-99), SabSupObsParms=c(-99,-99),
 SabPunishment=-99, SabResponseParms=c(-99,-99), SabPrefParms=c(-99,-99),
@@ -31,7 +31,6 @@ ReplacementResponseParms=c(-99,-99), quiet=FALSE, debug=FALSE)
   \item{omniscient}{Logical, FALSE (default) if the supervisor cannot see everyone, TRUE if she can.}
   \item{Memory}{Logical, FALSE (default) if the bureaucrat does not adapt behavior conditional on improvement from previous iteration}
   \item{Dismissal}{Number (float) that sets when the bureaucrat is dismissed, and replaced with a new bureaucrat (from what pool?)}
-  \item{tallperformance}{Logical, default=FALSE. Creates a tall record of the performance of each bureaucrat at each iteration of each repllication. Very slow.}
   \item{Tolerance}{Number (float) of standard deviations away from mean that the supervisor will regard as being
     deviant. Only makes sense if the "supervision is "Relative".}
   \item{Std}{Number (float) in range (-1,1) for supervisor to regard as the floor for performance. Only makes sense if

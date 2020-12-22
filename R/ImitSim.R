@@ -62,7 +62,6 @@
 ##' @param ResponseParms vector(2)
 ##' @param PrefParms vector(2)
 ##' @param BurObsParms vector(2)
-##' @param tallperformance logical
 ##' @param quiet logical
 ##' @param debug logical
 #'
@@ -84,8 +83,7 @@ ImitSim <- function(Replications,
                     ResponseParms=c(-99,-99),
                     BurObsParms=c(-99,-99),
                     quiet=FALSE,
-                    debug=FALSE,
-                    tallperformance=FALSE) {
+                    debug=FALSE) {
   # This routine randomly draws the assorted parameters
   # and stores the final mean supoutc as a dependent var
   # Version 1a calls policy 1a (relative punishment) based on punrate
@@ -101,9 +99,7 @@ ImitSim <- function(Replications,
       else cat(" with positive preferences\n")
     if (!omniscient) cat(" without omniscient supervisor\n")
       else cat(" with omniscient supervisor\n")
-    if (tallperformance) cat(" with TallPerformance record (SLOW)\n")
-      else cat(" without TallPerformance record\n")
-  }
+    }
 
     if (SupObsParms[1] != -99 & !quiet) cat("SupObsParms", SupObsParms, "\n")
       Init_SupObsParms <- SupObsParms
@@ -137,10 +133,6 @@ ImitSim <- function(Replications,
 
   # Store the results overall in Performance                                ## Do I want Performance Record to be global?
   Performance <- array(NA, dim=c(Replications*MaxIter,2+NumBurs))
-  if (tallperformance) {
-    TallPerformance <- array(NA, dim=c(0, 5))
-    colnames(TallPerformance) <- c("Replication", "Iteration", "Connectivity", "Bureaucrat", "Performance")
-  }
   ObstyRecord <- array(NA, dim=c(0, 1+NumBurs))
   SeenRecord <- array(NA, dim=c(0, 2+NumBurs))
 
@@ -197,10 +189,10 @@ ImitSim <- function(Replications,
 
     ### I'm not sure on the is.null call here. I *know* it's not null
     # "Relative" is for 1a/2a; "Fixed" is for 1b/1c/2b/2c
-    if (supervision == "Relative") Tolerance <- runif(1, min = -2, max=2)
+    if (supervision == "Relative" & Init_Tolerance != -99) Tolerance <- runif(1, min = -2, max=2)
     else if (supervision == "Fixed") Std <- runif(1, min=-1, max=1)
 
-    Punishment <- runif(1,min=0, max=2)
+    if (Init_Punishment == -99) Punishment <- runif(1,min=0, max=2)
 
     Connectivity <- igraph::vertex_connectivity(igraph::graph_from_adjacency_matrix(Obsty))
 
@@ -255,11 +247,6 @@ ImitSim <- function(Replications,
         # Record Performance
         Performance[(repl_ct-1)*MaxIter+iter, 1:2] <- c(repl_ct, iter)
         Performance[(repl_ct-1)*MaxIter+iter, 3:(NumBurs+2)] <- Response
-
-        # Write to TallPerformance
-        if (tallperformance)
-          for (b in 1:NumBurs)
-            TallPerformance <- rbind(TallPerformance, c(repl_ct, iter, Connectivity, b, Response[b]))
 
         # outcome equals desires times do
         if (debug) {
@@ -360,7 +347,7 @@ ImitSim <- function(Replications,
     ExecSummary[repl_ct, 16:17] <- c(mean(BurUtil[MaxIter,]), sd(BurUtil[MaxIter,]))
 
     if (Init_SupObsParms[1] == -99) SupObsParms <- c(-99,-99)
-    if (Init_Tolerance == -99) Tolerance <- -99
+    if (Init_Tolerance == -99) Tolerance <- Init_Tolerance
     if (Init_Std == -99) Std <- -99
     if (Init_Punishment == -99) Punishment <- -99
     if (Init_PrefParms[1] == -99) PrefParms <- c(-99, -99)
@@ -369,20 +356,6 @@ ImitSim <- function(Replications,
 
   }
 
-  if (tallperformance)
-    BigList <- list("Version" = "2.02",
-                    "NumBurs" = NumBurs,
-                    "MaxIter" = MaxIter,
-                    "Replications" = Replications,
-                    "supervision" = supervision,
-                    "posprefs" = posprefs,
-                    "omniscient" = omniscient,
-                    "ExecSummary" = as.data.frame(ExecSummary),
-                    "Performance" = Performance,
-                    "TallPerformance" = TallPerformance,
-                    "ObstyRecord" = ObstyRecord,
-                    "SeenRecord" = SeenRecord)
-  if (!tallperformance)
     BigList <- list("Version" = "2.02",
                     "NumBurs" = NumBurs,
                     "MaxIter" = MaxIter,
